@@ -1,9 +1,10 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
+
 import { FadeIn } from "@/components/animations/fade-in";
 import { StaggerChildren } from "@/components/animations/stagger-children";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function ServicesPage() {
   const serviceCategories = [

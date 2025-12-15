@@ -23,7 +23,10 @@ export function isAuthenticated(): boolean {
 /**
  * تنفيذ تسجيل الدخول باستخدام API
  */
-export async function login(email: string, password: string): Promise<LoginResponse> {
+export async function login(
+  email: string,
+  password: string
+): Promise<LoginResponse> {
   try {
     const response = await fetch(`${API_URL}/Acount/login`, {
       method: "POST",
@@ -49,7 +52,6 @@ export async function login(email: string, password: string): Promise<LoginRespo
       };
     }
   } catch (error) {
-    console.error("Login error:", error);
     return {
       success: false,
       message: `خطأ في الاتصال بالخادم: ${error instanceof Error ? error.message : "Unknown error"}`,

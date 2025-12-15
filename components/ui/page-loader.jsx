@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 /**
  * مكون لودر الصفحة - إصدار أبسط يعمل بشكل مضمون
@@ -91,7 +91,7 @@ export function FullPageLoader({ message = "جاري التحميل..." }) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
       <div className="relative h-20 w-20">
-        <div className="spinner-large"></div>
+        <div className="spinner-large" />
       </div>
       <p className="mt-4 text-muted-foreground">{message}</p>
     </div>

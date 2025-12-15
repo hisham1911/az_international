@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Award, User, FileText, AlertCircle, CheckCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+
 import { cn } from "@/lib/utils";
 
 export function AdminRecentActivity() {
@@ -78,7 +79,7 @@ export function AdminRecentActivity() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600" />
       </div>
     );
   }

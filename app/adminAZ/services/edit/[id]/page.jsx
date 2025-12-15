@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { CalendarIcon, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
-import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import React from "react";
+
+import { FadeIn } from "@/components/animations/fade-in";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
@@ -17,6 +18,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -24,18 +32,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { cn } from "@/lib/utils";
-import { FadeIn } from "@/components/animations/fade-in";
 import { updateService } from "@/lib/api-services";
-
-import React from "react";
+import { cn } from "@/lib/utils";
 
 export default function EditServicePage({ params }) {
   const router = useRouter();
@@ -72,7 +72,6 @@ export default function EditServicePage({ params }) {
 
         if (response.ok) {
           const serviceData = await response.json();
-          console.log("تم جلب بيانات الخدمة:", serviceData);
 
           // تعيين بيانات النموذج
           setFormData({
@@ -98,7 +97,6 @@ export default function EditServicePage({ params }) {
           router.push("/adminAZ/services");
         }
       } catch (error) {
-        console.error("خطأ في جلب بيانات الخدمة:", error);
         toast({
           title: "خطأ",
           description: "حدث خطأ أثناء جلب بيانات الخدمة",
@@ -187,7 +185,6 @@ export default function EditServicePage({ params }) {
         throw new Error(errorData.message || "فشل في تحديث الخدمة");
       }
     } catch (error) {
-      console.error("خطأ في تحديث الخدمة:", error);
       toast({
         title: "خطأ",
         description: error.message || "حدث خطأ أثناء تحديث الخدمة",

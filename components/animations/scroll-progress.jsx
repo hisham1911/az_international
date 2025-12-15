@@ -24,7 +24,7 @@ export function ScrollProgress() {
       <div
         className="h-full bg-blue-600 transition-all duration-150 ease-out"
         style={{ width: `${scrollProgress}%` }}
-      ></div>
+      />
     </div>
   );
 }

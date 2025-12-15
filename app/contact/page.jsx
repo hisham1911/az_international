@@ -1,14 +1,15 @@
 "use client";
 
+import { MapPin, Phone, Mail, Clock, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+
+import { FadeIn } from "@/components/animations/fade-in";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Mail, Clock, CheckCircle2 } from "lucide-react";
-import { FadeIn } from "@/components/animations/fade-in";
-import { useState } from "react";
 import { sendEmail } from "@/lib/api-services";
-import { toast } from "sonner";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -47,7 +48,6 @@ export default function ContactPage() {
       toast.error(
         "An error occurred while sending your message. Please try again."
       );
-      console.error("Error sending email:", error);
     } finally {
       setIsSubmitting(false);
     }

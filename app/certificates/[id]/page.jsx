@@ -1,11 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Calendar,
   Award,
@@ -16,9 +10,16 @@ import {
   Printer,
   CheckCircle,
 } from "lucide-react";
-import { FadeIn } from "@/components/animations/fade-in";
-import QRCode from "react-qr-code";
 import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import QRCode from "react-qr-code";
+
+import { FadeIn } from "@/components/animations/fade-in";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { searchService } from "@/lib/api-services";
 
 export default function CertificateVerificationPage() {
@@ -34,11 +35,9 @@ export default function CertificateVerificationPage() {
 
       try {
         // Call the API to search for a certificate by serial number
-        console.log("Fetching certificate with ID:", params.id);
         const result = await searchService(params.id);
 
         if (result) {
-          console.log("Certificate found:", result);
           // Transform the API response to match our frontend model
           setCertificate({
             id: `CERT-${result.id}`,
@@ -62,7 +61,6 @@ export default function CertificateVerificationPage() {
           setVerificationStatus("invalid");
         }
       } catch (err) {
-        console.error("Error fetching certificate:", err);
         setError("Error fetching certificate data");
         setVerificationStatus("invalid");
       } finally {
@@ -102,7 +100,7 @@ export default function CertificateVerificationPage() {
     return (
       <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-4 py-12">
         <div className="text-center">
-          <div className="mb-4 inline-block h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
+          <div className="mb-4 inline-block h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600" />
           <p className="text-gray-600">Verifying certificate...</p>
         </div>
       </div>

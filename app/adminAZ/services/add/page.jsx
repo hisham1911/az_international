@@ -1,8 +1,9 @@
 "use client";
 
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import {
   Card,
   CardHeader,
@@ -18,6 +19,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectTrigger,
@@ -25,7 +27,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { ServiceMethod, ServiceMethodOptions } from "@/lib/enums";
 
 // نموذج التحقق من الصحة باستخدام zod
@@ -58,7 +59,6 @@ export default function AddServicePage() {
 
   // معالجة عملية التقديم
   const onSubmit = async (data) => {
-    console.log("Form data:", data);
     // هنا يمكن إضافة كود لإرسال البيانات إلى API
   };
 

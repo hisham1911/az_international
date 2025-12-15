@@ -3,7 +3,10 @@
 import { useState, useCallback } from "react";
 
 interface UseApiReturn {
-  execute: <T>(apiCall: (...args: any[]) => Promise<T>, ...args: any[]) => Promise<T>;
+  execute: <T>(
+    apiCall: (...args: unknown[]) => Promise<T>,
+    ...args: unknown[]
+  ) => Promise<T>;
   isLoading: boolean;
   error: string | null;
 }
@@ -18,24 +21,28 @@ export function useApi(): UseApiReturn {
   /**
    * Execute an API call with loading and error handling
    */
-  const execute = useCallback(async <T>(
-    apiCall: (...args: any[]) => Promise<T>,
-    ...args: any[]
-  ): Promise<T> => {
-    setIsLoading(true);
-    setError(null);
+  const execute = useCallback(
+    async <T>(
+      apiCall: (...args: unknown[]) => Promise<T>,
+      ...args: unknown[]
+    ): Promise<T> => {
+      setIsLoading(true);
+      setError(null);
 
-    try {
-      const result = await apiCall(...args);
-      return result;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "An error occurred";
-      setError(errorMessage);
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+      try {
+        const result = await apiCall(...args);
+        return result;
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : "An error occurred";
+        setError(errorMessage);
+        throw err;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
   return { execute, isLoading, error };
 }

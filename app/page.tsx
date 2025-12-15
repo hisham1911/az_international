@@ -19,7 +19,7 @@ const ScrollProgress = lazy(() =>
 // Simple loading component
 const SimpleLoading = () => (
   <div className="flex justify-center py-16">
-    <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
+    <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
   </div>
 );
 

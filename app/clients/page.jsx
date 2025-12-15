@@ -1,9 +1,10 @@
 "use client";
 
 import { lazy, Suspense } from "react";
+
 import { FadeIn } from "@/components/animations/fade-in";
-import { Card, CardContent } from "@/components/ui/card";
 import { LazyImage } from "@/components/lazy-image";
+import { Card, CardContent } from "@/components/ui/card";
 
 // Import the clients data and UI components organized by industry sector
 const clientsBySector = {
@@ -234,7 +235,7 @@ const allClients = Object.values(clientsBySector).flat();
 // Simple loading component
 const SimpleLoading = () => (
   <div className="flex justify-center py-16">
-    <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
+    <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
   </div>
 );
 
@@ -265,7 +266,8 @@ export default function ClientsPage() {
               Our International Clients
             </h1>
             <p className="mx-auto mb-8 max-w-4xl text-lg leading-relaxed text-blue-100 md:text-xl">
-              We've built lasting partnerships with leading organizations across{" "}
+              We&apos;ve built lasting partnerships with leading organizations
+              across{" "}
               <span className="font-semibold text-white">
                 8+ industry sectors
               </span>
@@ -370,7 +372,7 @@ export default function ClientsPage() {
                   <div className="relative">
                     {/* Sector Header with Enhanced Design */}
                     <div className="mb-8 flex items-center justify-center">
-                      <div className="h-px flex-1 bg-gradient-to-r from-transparent to-gray-300"></div>
+                      <div className="h-px flex-1 bg-gradient-to-r from-transparent to-gray-300" />
                       <div className="mx-4 flex items-center gap-3 rounded-full border border-gray-200 bg-white px-6 py-3 shadow-lg">
                         <span className="text-2xl">
                           {sectorIcons[sector] || "🏢"}
@@ -383,7 +385,7 @@ export default function ClientsPage() {
                           {clients.length === 1 ? "client" : "clients"}
                         </div>
                       </div>
-                      <div className="h-px flex-1 bg-gradient-to-l from-transparent to-gray-300"></div>
+                      <div className="h-px flex-1 bg-gradient-to-l from-transparent to-gray-300" />
                     </div>
 
                     {/* Enhanced Client Cards Grid */}
@@ -393,13 +395,13 @@ export default function ClientsPage() {
                           <Card className="group relative h-[400px] overflow-hidden border-0 bg-white shadow-lg transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl md:h-[450px]">
                             {/* Gradient Border Effect */}
                             <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 p-[1px] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                              <div className="h-full w-full rounded-lg bg-white"></div>
+                              <div className="h-full w-full rounded-lg bg-white" />
                             </div>
 
                             <CardContent className="relative z-10 flex h-full flex-col items-center justify-between p-6 md:p-8">
                               {/* Logo Container with Enhanced Styling */}
                               <div className="relative mb-4 flex flex-shrink-0 justify-center transition-transform duration-300 group-hover:scale-105">
-                                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-100 to-indigo-100 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-60"></div>
+                                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-100 to-indigo-100 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-60" />
                                 <div className="relative flex h-20 w-full max-w-[180px] items-center justify-center rounded-xl border border-gray-100 bg-gray-50 p-3 md:h-24">
                                   <LazyImage
                                     src={client.logo}
@@ -423,11 +425,11 @@ export default function ClientsPage() {
                               <div className="flex flex-1 flex-col justify-center space-y-3 text-center">
                                 <div className="flex flex-1 flex-col justify-center rounded-lg border border-gray-100 bg-gray-50 p-3">
                                   <div className="mb-2 flex items-center justify-center gap-2">
-                                    <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                                    <div className="h-2 w-2 rounded-full bg-blue-500" />
                                     <span className="text-xs font-semibold uppercase tracking-wide text-blue-800">
                                       Services
                                     </span>
-                                    <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                                    <div className="h-2 w-2 rounded-full bg-blue-500" />
                                   </div>
                                   <p className="line-clamp-4 text-sm leading-relaxed text-gray-700">
                                     {client.description}
@@ -446,7 +448,7 @@ export default function ClientsPage() {
                               {/* Partnership Badge */}
                               <div className="mt-3 w-full flex-shrink-0 border-t border-gray-100 pt-3">
                                 <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-                                  <span className="h-2 w-2 animate-pulse rounded-full bg-green-400"></span>
+                                  <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
                                   <span>Active Partnership</span>
                                 </div>
                               </div>
@@ -547,8 +549,8 @@ export default function ClientsPage() {
               What Our <span className="text-blue-600">Clients Say</span>
             </h2>
             <p className="mx-auto max-w-3xl text-lg text-gray-600">
-              Our clients' satisfaction is our greatest achievement. Here's what
-              industry leaders say about our services.
+              Our clients&apos; satisfaction is our greatest achievement.
+              Here&apos;s what industry leaders say about our services.
             </p>
           </FadeIn>
 
@@ -556,7 +558,7 @@ export default function ClientsPage() {
             <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {/* Testimonial 1 - Siemens Energy */}
               <Card className="group relative overflow-hidden border-0 bg-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-blue-500 to-indigo-500"></div>
+                <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-blue-500 to-indigo-500" />
                 <CardContent className="p-8">
                   {/* Quote Icon */}
                   <div className="mb-6 flex items-center justify-between">
@@ -581,10 +583,10 @@ export default function ClientsPage() {
                   </div>
 
                   <blockquote className="mb-6 italic leading-relaxed text-gray-700">
-                    "The team at AZ Engineering has provided exceptional
+                    &quot;The team at AZ Engineering has provided exceptional
                     inspection services for our critical equipment. Their
                     attention to detail and technical expertise has helped us
-                    maintain the highest standards of quality."
+                    maintain the highest standards of quality.&quot;
                   </blockquote>
 
                   <div className="flex items-center">
@@ -603,7 +605,7 @@ export default function ClientsPage() {
 
               {/* Testimonial 2 - Orascom */}
               <Card className="group relative overflow-hidden border-0 bg-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-green-500 to-emerald-500"></div>
+                <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-green-500 to-emerald-500" />
                 <CardContent className="p-8">
                   <div className="mb-6 flex items-center justify-between">
                     <svg
@@ -627,10 +629,10 @@ export default function ClientsPage() {
                   </div>
 
                   <blockquote className="mb-6 italic leading-relaxed text-gray-700">
-                    "We've been working with AZ Engineering for over three years
-                    now, and their third-party inspection services have
-                    consistently exceeded our expectations. Their team is
-                    responsive, professional, and thorough."
+                    &quot;We&apos;ve been working with AZ Engineering for over
+                    three years now, and their third-party inspection services
+                    have consistently exceeded our expectations. Their team is
+                    responsive, professional, and thorough.&quot;
                   </blockquote>
 
                   <div className="flex items-center">
@@ -649,7 +651,7 @@ export default function ClientsPage() {
 
               {/* Testimonial 3 - Al Ezz Flat Steel */}
               <Card className="group relative overflow-hidden border-0 bg-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl md:col-span-2 lg:col-span-1">
-                <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-purple-500 to-pink-500" />
                 <CardContent className="p-8">
                   <div className="mb-6 flex items-center justify-between">
                     <svg
@@ -673,10 +675,10 @@ export default function ClientsPage() {
                   </div>
 
                   <blockquote className="mb-6 italic leading-relaxed text-gray-700">
-                    "AZ Engineering's expertise in NDT services and their
-                    comprehensive approach to quality control has been
+                    &quot;AZ Engineering&apos;s expertise in NDT services and
+                    their comprehensive approach to quality control has been
                     instrumental in our manufacturing operations. Highly
-                    recommended for their professionalism."
+                    recommended for their professionalism.&quot;
                   </blockquote>
 
                   <div className="flex items-center">

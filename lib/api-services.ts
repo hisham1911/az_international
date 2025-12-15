@@ -5,7 +5,7 @@
  * يتصل بنقاط نهاية API الحقيقية لإدارة الشهادات
  */
 
-import type { Certificate, ApiResponse } from "@/types";
+import type { Certificate } from "@/types";
 
 // عنوان API الأساسي
 const API_BASE_URL = "https://azinternational-eg.com/api";
@@ -15,7 +15,7 @@ const CACHE_TTL = 5 * 60 * 1000;
 
 // كائن للتخزين المؤقت
 const cache = {
-  data: new Map<string, any>(),
+  data: new Map<string, unknown>(),
   timestamps: new Map<string, number>(),
 
   // حفظ البيانات في التخزين المؤقت
@@ -116,7 +116,9 @@ export async function getAllServices(): Promise<Certificate[]> {
 /**
  * البحث عن شهادة باستخدام الاسم
  */
-export async function searchServiceByName(search: string): Promise<Certificate[]> {
+export async function searchServiceByName(
+  search: string
+): Promise<Certificate[]> {
   try {
     const response = await fetch(
       `${API_BASE_URL}/Services/searchByName?search=${encodeURIComponent(
@@ -145,12 +147,12 @@ export async function searchServiceByName(search: string): Promise<Certificate[]
 
     // Process certificate data
     const processedData = Array.isArray(data)
-      ? data.map((cert: any) => ({
-          ...cert,
+      ? data.map((cert: unknown) => ({
+          ...(cert as Record<string, unknown>),
         }))
       : [];
 
-    return processedData;
+    return processedData as unknown as Certificate[];
   } catch (error) {
     // Return empty results for any errors
     return [];
@@ -160,7 +162,9 @@ export async function searchServiceByName(search: string): Promise<Certificate[]
 /**
  * البحث عن شهادة باستخدام الرقم التسلسلي
  */
-export async function searchServiceBySerialNumber(search: string): Promise<Certificate[]> {
+export async function searchServiceBySerialNumber(
+  search: string
+): Promise<Certificate[]> {
   try {
     const response = await fetch(
       `${API_BASE_URL}/Services/searchByS_N?search=${encodeURIComponent(
@@ -189,12 +193,12 @@ export async function searchServiceBySerialNumber(search: string): Promise<Certi
 
     // Process certificate data
     const processedData = Array.isArray(data)
-      ? data.map((cert: any) => ({
-          ...cert,
+      ? data.map((cert: unknown) => ({
+          ...(cert as Record<string, unknown>),
         }))
       : [];
 
-    return processedData;
+    return processedData as unknown as Certificate[];
   } catch (error) {
     // Return empty results for any errors
     return [];
@@ -204,7 +208,9 @@ export async function searchServiceBySerialNumber(search: string): Promise<Certi
 /**
  * Search for a certificate by ID or serial number
  */
-export async function searchService(search: string): Promise<Certificate | null> {
+export async function searchService(
+  search: string
+): Promise<Certificate | null> {
   try {
     // Check if search is a serial number
     const results = await searchServiceBySerialNumber(search);
@@ -231,7 +237,6 @@ export async function searchService(search: string): Promise<Certificate | null>
 
     return null;
   } catch (error) {
-    console.error("Error in searchService:", error);
     return null;
   }
 }
@@ -239,7 +244,9 @@ export async function searchService(search: string): Promise<Certificate | null>
 /**
  * إنشاء شهادة جديدة
  */
-export async function createService(data: Partial<ServiceData>): Promise<Certificate> {
+export async function createService(
+  data: Partial<ServiceData>
+): Promise<Certificate> {
   try {
     // Format the data according to API requirements
     const formattedData: ServiceData = {
@@ -266,8 +273,6 @@ export async function createService(data: Partial<ServiceData>): Promise<Certifi
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-
       // More user-friendly error messages based on status code
       if (response.status === 400) {
         throw new Error(
@@ -305,7 +310,10 @@ export async function createService(data: Partial<ServiceData>): Promise<Certifi
 /**
  * تحديث شهادة موجودة
  */
-export async function updateService(id: string | number, data: Partial<ServiceData>): Promise<Certificate> {
+export async function updateService(
+  id: string | number,
+  data: Partial<ServiceData>
+): Promise<Certificate> {
   try {
     // Format the data according to API requirements
     const formattedData = {
@@ -332,8 +340,6 @@ export async function updateService(id: string | number, data: Partial<ServiceDa
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-
       // More user-friendly error messages based on status code
       if (response.status === 400) {
         throw new Error(
@@ -422,7 +428,7 @@ export async function deleteService(id: string | number): Promise<boolean> {
 /**
  * إرسال بريد إلكتروني
  */
-export async function sendEmail(emailData: EmailData): Promise<any> {
+export async function sendEmail(emailData: EmailData): Promise<unknown> {
   try {
     const response = await fetch(`${API_BASE_URL}/Email/SendEmail`, {
       method: "POST",
@@ -446,7 +452,7 @@ export async function sendEmail(emailData: EmailData): Promise<any> {
 /**
  * رفع ملف اكسل للشهادات
  */
-export async function uploadExcelFile(file: File): Promise<any> {
+export async function uploadExcelFile(file: File): Promise<unknown> {
   try {
     const formData = new FormData();
     formData.append("file", file);
@@ -495,12 +501,10 @@ export async function uploadExcelFile(file: File): Promise<any> {
             data: text, // Keep original text for verification
           };
         } else {
-          console.error("Failed to parse JSON response:", text);
           throw new Error("Invalid response format from server");
         }
       }
     } catch (error) {
-      console.error("Error reading response:", error);
       throw new Error("Error reading response from server");
     }
 
@@ -522,7 +526,9 @@ export async function uploadExcelFile(file: File): Promise<any> {
 /**
  * Get certificate by ID
  */
-export async function getServiceById(id: string | number): Promise<Certificate> {
+export async function getServiceById(
+  id: string | number
+): Promise<Certificate> {
   try {
     const response = await fetch(`${API_BASE_URL}/Services/getById?id=${id}`, {
       method: "GET",

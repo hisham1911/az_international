@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function SpinnerLoader() {
   const pathname = usePathname();
@@ -58,7 +58,7 @@ export default function SpinnerLoader() {
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/70 backdrop-blur-sm">
       <div className="relative h-20 w-20">
-        <div className="absolute inset-0 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600"></div>
+        <div className="absolute inset-0 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600" />
         <div className="absolute inset-0 flex items-center justify-center">
           {/* يمكن استبدال هذا بشعار الموقع */}
           <Image
@@ -86,7 +86,7 @@ export function CenteredSpinner({ size = "md" }) {
   return (
     <div className="flex items-center justify-center py-8">
       <div className={`relative ${sizes[size]}`}>
-        <div className="absolute inset-0 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600"></div>
+        <div className="absolute inset-0 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600" />
         <div className="absolute inset-0 flex items-center justify-center">
           <Image
             src="/images/az-logo.png"

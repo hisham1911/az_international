@@ -53,11 +53,11 @@ export default function WhatsAppButton() {
           }`}
         >
           Chat with us
-          <div className="absolute left-1/2 top-full h-0 w-0 -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-800"></div>
+          <div className="absolute left-1/2 top-full h-0 w-0 -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-800" />
         </div>
 
         {/* Subtle pulsing effect */}
-        <span className="absolute inset-0 animate-pulse rounded-full bg-[#25D366] opacity-50"></span>
+        <span className="absolute inset-0 animate-pulse rounded-full bg-[#25D366] opacity-50" />
       </a>
     </div>
   );

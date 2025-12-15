@@ -1,10 +1,5 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Search,
   FileText,
@@ -15,10 +10,16 @@ import {
   Loader2,
   QrCode,
 } from "lucide-react";
-import { FadeIn } from "@/components/animations/fade-in";
-import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
+import { useState, useCallback, useMemo } from "react";
+
+import { FadeIn } from "@/components/animations/fade-in";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   searchServiceByName,
   searchServiceBySerialNumber,
@@ -128,7 +129,6 @@ export default function CertificatesPage() {
           setError("No certificate found with these details");
         }
       } catch (error) {
-        console.error("Error searching for certificate:", error);
         setError("An error occurred while searching. Please try again.");
       } finally {
         setIsSearching(false);
@@ -177,7 +177,8 @@ export default function CertificatesPage() {
 
         <p className="mx-auto mb-12 max-w-3xl text-center text-lg text-gray-700">
           Verify the authenticity of certificates issued by AZ INTERNATIONAL by
-          searching with the trainee's name or the certificate's serial number
+          searching with the trainee&apos;s name or the certificate&apos;s
+          serial number
         </p>
       </FadeIn>
 
@@ -341,7 +342,7 @@ export default function CertificatesPage() {
                       </div>
                     </div>
 
-                    <div className="pt-2"></div>
+                    <div className="pt-2" />
                   </CardContent>
                 </Card>
               ))}

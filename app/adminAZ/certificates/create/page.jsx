@@ -1,17 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { CalendarIcon, ChevronLeft, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import { FadeIn } from "@/components/animations/fade-in";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Card,
   CardContent,
@@ -20,20 +14,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { CustomCalendar } from "@/components/ui/custom-calendar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon, ChevronLeft, Save } from "lucide-react";
-import { formatDate, addYears } from "@/utils/date-utils";
-import { cn } from "@/lib/utils";
-import { FadeIn } from "@/components/animations/fade-in";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { createService } from "@/lib/api-services";
 import { ServiceMethodOptions, CertificateTypeOptions } from "@/lib/enums";
+import { cn } from "@/lib/utils";
+import { formatDate, addYears } from "@/utils/date-utils";
 
 /**
  * Create New Certificate Page
@@ -119,7 +120,6 @@ export default function CreateCertificatePage() {
 
       router.push("/adminAZ/certificates");
     } catch (error) {
-      console.error("Error creating certificate:", error);
       toast({
         title: "Error",
         description:

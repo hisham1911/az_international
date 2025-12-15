@@ -1,9 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Shield, Award, Users, Zap, Search } from "lucide-react";
+import Image from "next/image";
+
 import { FadeIn } from "@/components/animations/fade-in";
 import { StaggerChildren } from "@/components/animations/stagger-children";
-import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function StandardNDTPage() {
   const services = [
@@ -197,7 +198,7 @@ export default function StandardNDTPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-green-900 via-green-800 to-teal-800 py-20 text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-black/20" />
         <div className="container relative z-10 mx-auto px-4">
           <FadeIn>
             <div className="mx-auto max-w-4xl text-center">

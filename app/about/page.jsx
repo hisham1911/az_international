@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { FadeIn } from "@/components/animations/fade-in";
 
 export default function AboutPage() {
@@ -11,7 +12,7 @@ export default function AboutPage() {
               <h1 className="mb-6 text-4xl font-bold text-gray-900 md:text-5xl">
                 About AZ INTERNATIONAL
               </h1>
-              <div className="mx-auto h-1 w-24 bg-blue-600"></div>
+              <div className="mx-auto h-1 w-24 bg-blue-600" />
             </div>
           </FadeIn>
 

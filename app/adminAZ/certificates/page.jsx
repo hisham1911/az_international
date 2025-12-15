@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import {
   Award,
   Search,
@@ -17,7 +15,21 @@ import {
   Upload,
   FileSpreadsheet,
 } from "lucide-react";
+import { Edit as EditIcon, Trash2 as TrashIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+
+import { FadeIn } from "@/components/animations/fade-in";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -27,14 +39,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { FadeIn } from "@/components/animations/fade-in";
 import { useToast } from "@/hooks/use-toast";
 import {
   searchServiceByName,
@@ -42,11 +46,8 @@ import {
   deleteService,
   uploadExcelFile,
 } from "@/lib/api-services";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { formatDateForDisplay } from "@/utils/date-utils";
-import Link from "next/link";
-import { Edit as EditIcon, Trash2 as TrashIcon } from "lucide-react";
 import { getServiceMethodLabel, getCertificateTypeLabel } from "@/lib/enums";
+import { formatDateForDisplay } from "@/utils/date-utils";
 
 /**
  * Certificate Management Page
@@ -193,9 +194,6 @@ export default function CertificatesPage() {
       if (hasSearched && searchQuery) {
         handleSearch();
       }
-
-      // Log the response to console
-      console.log("Upload success response:", result);
 
       // Method 1: Show success message in UI
       setError({

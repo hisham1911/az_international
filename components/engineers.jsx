@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { FadeIn } from "@/components/animations/fade-in";
 
 export default function Engineers() {
@@ -15,7 +16,7 @@ export default function Engineers() {
                 Our distinguished engineers and industry experts with extensive
                 local and international experience
               </p>
-              <div className="mx-auto mt-6 h-1 w-24 bg-blue-600"></div>
+              <div className="mx-auto mt-6 h-1 w-24 bg-blue-600" />
             </div>
           </FadeIn>{" "}
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
@@ -94,7 +95,7 @@ export default function Engineers() {
                     </p>
                     <p className="flex items-start">
                       <span className="mr-2 text-blue-600">•</span>
-                      Lloyd's Register Individual Consultant
+                      Lloyd&apos;s Register Individual Consultant
                     </p>
                   </div>
                 </div>

@@ -60,7 +60,7 @@ export function processBatch<T>(
 /**
  * تحسين تفاعلات المستخدم من خلال تقليل تكرار الأحداث
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait = 100
 ): (...args: Parameters<T>) => void {
@@ -74,7 +74,7 @@ export function debounce<T extends (...args: any[]) => any>(
 /**
  * تقييد معدل تنفيذ الوظائف (مفيد جدًا للأحداث المتكررة مثل التمرير)
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit = 100
 ): (...args: Parameters<T>) => void {

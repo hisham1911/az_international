@@ -9,7 +9,10 @@ type FormatString = "PPP" | "PP" | "P" | "p" | "Pp";
 /**
  * تنسيق التاريخ بصيغة معينة
  */
-export function formatDate(date: DateInput, formatStr: FormatString = "PPP"): string {
+export function formatDate(
+  date: DateInput,
+  formatStr: FormatString = "PPP"
+): string {
   if (!date) return "";
 
   // التأكد من أن التاريخ هو كائن Date
@@ -141,7 +144,7 @@ export function endOfMonth(date: DateInput): Date {
 export function formatDateForDisplay(date: DateInput): string {
   if (!date) return "";
 
-  const dateObj = typeof date === "string" ? new Date(date) : date;
+  const dateObj = date instanceof Date ? date : new Date(date);
 
   // التحقق من صحة التاريخ
   if (isNaN(dateObj.getTime())) {
@@ -157,7 +160,7 @@ export function formatDateForDisplay(date: DateInput): string {
 export function formatDateTimeForDisplay(date: DateInput): string {
   if (!date) return "";
 
-  const dateObj = typeof date === "string" ? new Date(date) : date;
+  const dateObj = date instanceof Date ? date : new Date(date);
 
   // التحقق من صحة التاريخ
   if (isNaN(dateObj.getTime())) {

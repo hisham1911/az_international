@@ -1,28 +1,25 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { useRouter, usePathname } from "next/navigation";
-
-import { Button } from "@/components/ui/button";
 import {
   Menu,
   X,
   Facebook,
-  Twitter,
   Linkedin,
   Instagram,
   Mail,
   Phone,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+
 import {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
   NavigationMenuTrigger,
   NavigationMenuContent,
-  NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 
 interface SubmenuItem {
@@ -41,9 +38,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
   const currentPath = usePathname();
-  const navMenuRef = useRef<HTMLDivElement>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [topBarVisible, setTopBarVisible] = useState(true);
 
   const navLinks: NavLink[] = [
     { name: "Home", href: "/" },

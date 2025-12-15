@@ -1,8 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Award,
@@ -16,8 +13,12 @@ import {
   Bell,
   MessageSquare,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function AdminSidebar() {
   const pathname = usePathname();

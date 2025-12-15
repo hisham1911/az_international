@@ -1,5 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
   CheckCircle,
   Shield,
@@ -8,9 +6,12 @@ import {
   Microscope,
   ClipboardCheck,
 } from "lucide-react";
+import Image from "next/image";
+
 import { FadeIn } from "@/components/animations/fade-in";
 import { StaggerChildren } from "@/components/animations/stagger-children";
-import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function QualityAssurancePage() {
   const services = [
@@ -228,7 +229,7 @@ export default function QualityAssurancePage() {
                         key={featureIndex}
                         className="flex items-center text-sm text-gray-600"
                       >
-                        <div className="mr-2 h-2 w-2 rounded-full bg-blue-600"></div>
+                        <div className="mr-2 h-2 w-2 rounded-full bg-blue-600" />
                         {feature}
                       </div>
                     ))}

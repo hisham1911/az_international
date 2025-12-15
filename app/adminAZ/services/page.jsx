@@ -1,8 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { format } from "date-fns";
 import {
   Search,
   PlusIcon,
@@ -12,10 +10,15 @@ import {
   InfoIcon,
   ArrowUpDown,
 } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 // UI components
+import { FadeIn } from "@/components/animations/fade-in";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -24,6 +27,7 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -32,16 +36,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { FadeIn } from "@/components/animations/fade-in";
 import { useToast } from "@/components/ui/use-toast";
-
-// API services
 import { deleteService } from "@/lib/api-services";
-
-// Utils
-import { format } from "date-fns";
 import {
   ServiceMethod,
   ServiceMethodOptions,
@@ -122,7 +118,6 @@ export default function ServicesPage() {
       const groupedResults = groupCertificatesByName(results);
       setSearchResults(groupedResults);
     } catch (error) {
-      console.error("Error searching services:", error);
       setError("Failed to search services. Please try again.");
     } finally {
       setIsSearching(false);
@@ -158,7 +153,6 @@ export default function ServicesPage() {
           return newResults;
         });
       } catch (error) {
-        console.error("Error deleting service:", error);
         toast({
           title: "Error",
           description: "Failed to delete service",

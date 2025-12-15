@@ -10,7 +10,7 @@ const nextConfig = {
   },
   // تحسين الصور
   images: {
-    unoptimized: true, // يمكن تعديله إلى false في الإنتاج لتحسين الأداء
+    unoptimized: false, // Enable Next.js image optimization for production
     domains: ["hebbkx1anhila5yf.public.blob.vercel-storage.com"],
     formats: ["image/avif", "image/webp"],
   },
@@ -22,7 +22,6 @@ const nextConfig = {
     optimizePackageImports: [
       "lucide-react", 
       "@radix-ui/react-icons",
-      "framer-motion",
       "date-fns",
       "recharts"
     ],

@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { Bell, Search, User } from "lucide-react";
+import { useState } from "react";
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export function AdminHeader() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,7 +36,7 @@ export function AdminHeader() {
       <div className="flex items-center space-x-3">
         <Button variant="ghost" size="icon" className="relative text-gray-500">
           <Bell className="h-5 w-5" />
-          <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500"></span>
+          <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500" />
         </Button>
 
         <DropdownMenu>

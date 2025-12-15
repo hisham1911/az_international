@@ -1,10 +1,11 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Download, Printer } from "lucide-react";
-import QRCode from "react-qr-code";
 import Image from "next/image";
+import QRCode from "react-qr-code";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function QRCertificateCard({
   certificate,

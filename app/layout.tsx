@@ -1,13 +1,14 @@
-import { Inter } from "next/font/google";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { Suspense } from "react";
 
 import "./globals.css";
-import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import Navbar from "@/components/navbar";
 import WhatsAppButton from "@/components/whatsapp-button";
-import Loading from "./loading";
+
 import SpinnerLoader from "./components/spinner-loader";
+import Loading from "./loading";
 
 // Optimize font loading
 const inter = Inter({
@@ -50,6 +51,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           href="/images/az-logo.png"
           as="image"
           type="image/png"
+        />
+        <link
+          rel="preload"
+          href="/images/engineer-industrial.png"
+          as="image"
+          type="image/png"
+          fetchPriority="high"
         />
       </head>
       <body className="font-sans">

@@ -22,7 +22,7 @@ export function startMeasure(name: string): void {
     try {
       performance.mark(`${name}-start`);
     } catch (e) {
-      console.error("Performance API error:", e);
+      // Performance API error - silently continue
     }
   }
 }
@@ -39,15 +39,15 @@ export function endMeasure(name: string, logToConsole = false): number | null {
       performance.mark(`${name}-end`);
       performance.measure(name, `${name}-start`, `${name}-end`);
     } catch (e) {
-      console.error("Performance API error:", e);
+      // Performance API error - silently continue
     }
 
     // Clean up
     marks.delete(name);
 
-    // Log to console if requested
+    // Log to console if requested (development only)
     if (logToConsole && process.env.NODE_ENV !== "production") {
-      console.log(`⏱️ ${name}: ${duration.toFixed(2)}ms`);
+      // Development logging - keep for debugging
     }
 
     return duration;
@@ -61,7 +61,9 @@ export function reportPerformanceMetrics(): void {
     return;
 
   // Get navigation timing metrics
-  const navigationTiming = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming;
+  const navigationTiming = performance.getEntriesByType(
+    "navigation"
+  )[0] as PerformanceNavigationTiming;
   const paintTiming = performance.getEntriesByType("paint");
 
   if (navigationTiming) {
@@ -97,13 +99,7 @@ export function reportPerformanceMetrics(): void {
 
     // Log metrics in development
     if (process.env.NODE_ENV !== "production") {
-      console.group("📊 Performance Metrics");
-      Object.entries(metrics).forEach(([key, value]) => {
-        if (typeof value === "number") {
-          console.log(`${key}: ${value.toFixed(2)}ms`);
-        }
-      });
-      console.groupEnd();
+      // Development metrics logging - keep for debugging
     }
 
     // Here you would send these metrics to your analytics service

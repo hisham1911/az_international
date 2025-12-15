@@ -1,3 +1,7 @@
+import { useState } from "react";
+
+import { FadeIn } from "@/components/animations/fade-in";
+import { LazyImage } from "@/components/lazy-image";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -6,9 +10,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { FadeIn } from "@/components/animations/fade-in";
-import { LazyImage } from "@/components/lazy-image";
-import { useState } from "react";
 
 export default function Clients() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -75,7 +76,7 @@ export default function Clients() {
         <FadeIn className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold md:text-4xl">Our Clients</h2>
           <p className="mx-auto max-w-3xl text-lg text-gray-600">
-            We're proud to work with leading organizations across various
+            We&apos;re proud to work with leading organizations across various
             industries, providing them with reliable engineering and inspection
             services.
           </p>
