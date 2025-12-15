@@ -1,44 +1,21 @@
-"use client";
+import { Suspense } from "react";
 
-import { Suspense, lazy } from "react";
-
+// Below-the-fold components wrapped in client boundary for dynamic loading
+import BelowFoldContent from "@/app/components/below-fold-content";
+// Critical above-the-fold components loaded immediately as Server Components
 import Hero from "@/components/hero";
-// Import critical components normally
 import Services from "@/components/services";
-
-// Lazy load non-critical components
-const Stats = lazy(() => import("@/components/stats"));
-const Engineers = lazy(() => import("@/components/engineers"));
-const Clients = lazy(() => import("@/components/clients"));
-const ScrollProgress = lazy(() =>
-  import("@/components/animations/scroll-progress").then((mod) => ({
-    default: mod.ScrollProgress,
-  }))
-);
-
-// Simple loading component
-const SimpleLoading = () => (
-  <div className="flex justify-center py-16">
-    <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
-  </div>
-);
 
 export default function Home() {
   return (
     <div>
-      <Suspense fallback={null}>
-        <ScrollProgress />
-      </Suspense>
+      {/* Above-the-fold content rendered on server for optimal performance */}
       <Hero />
       <Services />
-      <Suspense fallback={<SimpleLoading />}>
-        <Stats />
-      </Suspense>
-      <Suspense fallback={<SimpleLoading />}>
-        <Engineers />
-      </Suspense>
-      <Suspense fallback={<SimpleLoading />}>
-        <Clients />
+
+      {/* Below-the-fold content with client-side optimizations */}
+      <Suspense fallback={<div className="min-h-[200px]" />}>
+        <BelowFoldContent />
       </Suspense>
     </div>
   );

@@ -1,6 +1,17 @@
+import dynamic from "next/dynamic";
 import Image from "next/image";
 
-import { FadeIn } from "@/components/animations/fade-in";
+// Dynamically import animation to reduce main-thread work
+const FadeIn = dynamic(
+  () =>
+    import("@/components/animations/fade-in").then((mod) => ({
+      default: mod.FadeIn,
+    })),
+  {
+    ssr: false,
+    loading: ({ children }) => <div>{children}</div>,
+  }
+);
 
 export default function Engineers() {
   return (

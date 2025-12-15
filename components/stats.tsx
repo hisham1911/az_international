@@ -1,9 +1,31 @@
 import { Users, Award, Building, Clock } from "lucide-react";
+import dynamic from "next/dynamic";
 import React from "react";
 
-import { CountUp } from "@/components/animations/count-up";
-import { FadeIn } from "@/components/animations/fade-in";
 import { Card, CardContent } from "@/components/ui/card";
+
+// Dynamically import heavy animation components to reduce main-thread blocking
+const CountUp = dynamic(
+  () =>
+    import("@/components/animations/count-up").then((mod) => ({
+      default: mod.CountUp,
+    })),
+  {
+    ssr: false, // Count-up animation doesn't need SSR
+    loading: () => <span>0</span>, // Show 0 while loading animation
+  }
+);
+
+const FadeIn = dynamic(
+  () =>
+    import("@/components/animations/fade-in").then((mod) => ({
+      default: mod.FadeIn,
+    })),
+  {
+    ssr: false, // Fade animation doesn't need SSR
+    loading: () => <div />, // Show empty div while loading animation
+  }
+);
 
 interface Stat {
   icon: React.ReactElement;
