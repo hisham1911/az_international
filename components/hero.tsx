@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { FadeIn } from "@/components/animations/fade-in";
 import { WaveAnimation } from "@/components/animations/wave-animation";
 
@@ -36,7 +37,7 @@ export default function Hero() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
             </FadeIn>
           </div>
