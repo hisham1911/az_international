@@ -1,7 +1,5 @@
-import Link from "next/link";
 import {
   Facebook,
-  Twitter,
   Linkedin,
   Instagram,
   Mail,
@@ -20,7 +18,7 @@ export default function Footer() {
           <div className="flex flex-col">
             <div className="group mb-3 flex items-center">
               <div className="relative mr-3">
-                <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-600/30 to-blue-400/30 opacity-75 blur-sm transition-all duration-500 group-hover:opacity-100"></div>
+                <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-600/30 to-blue-400/30 opacity-75 blur-sm transition-all duration-500 group-hover:opacity-100" />
                 <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-blue-900 p-1 ring-1 ring-white/10 md:h-11 md:w-11">
                   <Image
                     src="/images/az-logo.png"
@@ -54,7 +52,7 @@ export default function Footer() {
           <div className="flex flex-col md:items-end">
             <h4 className="relative mb-3 inline-block text-xs font-semibold uppercase tracking-wider text-blue-200">
               Contact Us
-              <span className="absolute -bottom-1 left-0 h-0.5 w-12 rounded-full bg-gradient-to-r from-blue-500/80 to-transparent"></span>
+              <span className="absolute -bottom-1 left-0 h-0.5 w-12 rounded-full bg-gradient-to-r from-blue-500/80 to-transparent" />
             </h4>
             <ul className="space-y-3 text-xs">
               <li className="group flex items-start">
@@ -129,7 +127,7 @@ export default function Footer() {
         </div>
         {/* Bottom copyright bar */}
         <div className="relative overflow-hidden border-t border-blue-800/30 py-3 text-center text-[11px] text-blue-200/70">
-          <div className="animate-shimmer pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-blue-900/10 to-transparent"></div>
+          <div className="animate-shimmer pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-blue-900/10 to-transparent" />
           <p>
             © {new Date().getFullYear()} AZ INTERNATIONAL. All Rights Reserved.
           </p>
