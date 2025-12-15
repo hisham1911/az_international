@@ -1,10 +1,20 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Users, Award, Building, Clock } from "lucide-react";
+import React from "react";
+
 import { CountUp } from "@/components/animations/count-up";
 import { FadeIn } from "@/components/animations/fade-in";
+import { Card, CardContent } from "@/components/ui/card";
+
+interface Stat {
+  icon: React.ReactElement;
+  value: number;
+  label: string;
+  suffix?: string;
+  prefix?: string;
+}
 
 export default function Stats() {
-  const stats = [
+  const stats: Stat[] = [
     {
       icon: <Clock className="h-10 w-10 text-blue-600" />,
       value: 12,
