@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "target": "ES2020",
+    "skipLibCheck": true,
+    "strict": false, // تعطيل مؤقت للتطوير السريع
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": false, // تعطيل للتطوير السريع
+    "noImplicitReturns": false, // تعطيل للتطوير السريع
+    "noFallthroughCasesInSwitch": false, // تعطيل للتطوير السريع
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/components/*": ["./components/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/types/*": ["./types/*"],
+      "@/utils/*": ["./utils/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", ".next", "out"]
+}
