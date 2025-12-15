@@ -61,7 +61,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         />
       </head>
       <body className="font-sans">
-        {/* لودر السبنر المركزي بالشعار لعرضه عند التنقل بين الصفحات */}
+        {/* Navigation loading spinner */}
         <SpinnerLoader />
 
         <div className="flex min-h-screen flex-col">

@@ -4,46 +4,41 @@ const nextConfig = {
   outputFileTracingRoot: process.cwd(),
   
   // Enable strict mode for better development experience
+  reactStrictMode: true,
+  
+  // ESLint configuration
   eslint: {
     dirs: ["app", "components", "lib", "hooks"],
   },
+  
+  // TypeScript configuration
   typescript: {
-    // Enable type checking during builds
     ignoreBuildErrors: false,
   },
-  // تحسين الصور
+  
+  // Image optimization
   images: {
-    unoptimized: false, // Enable Next.js image optimization for production
+    unoptimized: false,
     domains: ["hebbkx1anhila5yf.public.blob.vercel-storage.com"],
     formats: ["image/avif", "image/webp"],
   },
 
-  // تحسينات تجريبية
-  experimental: {
-    // optimizePackageImports is now stable in Next.js 15, but keeping in experimental for compatibility
-  },
-
-  // تحسين معالجة المكونات الخارجية
+  // External packages for server-side rendering
   serverExternalPackages: ["sharp"],
 
-  // تحسينات المترجم
+  // Compiler optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },
 
-  // تحسين التحميل
-  reactStrictMode: true, // يمكن تعطيله مؤقتاً لتحسين الأداء في التطوير
-
-  // تسريع التحميل
-  compress: true, // تفعيل الضغط (الافتراضي هو true لكن للتأكيد)
-  poweredByHeader: false, // إزالة ترويسة X-Powered-By
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
   
-  // تحسين التطوير (swcMinify محذوف لأنه افتراضي في Next.js 15)
-  
-  // تسريع تحميل الصفحة
+  // Development optimizations
   onDemandEntries: {
-    maxInactiveAge: 60 * 60 * 1000, // زيادة وقت الاحتفاظ بالصفحات المحملة
-    pagesBufferLength: 5, // عدد الصفحات المحملة مسبقاً
+    maxInactiveAge: 60 * 60 * 1000,
+    pagesBufferLength: 5,
   },
 };
 
