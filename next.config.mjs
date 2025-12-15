@@ -17,15 +17,7 @@ const nextConfig = {
 
   // تحسينات تجريبية
   experimental: {
-    // تعطيل optimizeCss لتجنب مشاكل مع critters
-    optimizeCss: false,
-    optimizePackageImports: [
-      "lucide-react", 
-      "@radix-ui/react-icons",
-      "date-fns",
-      "recharts"
-    ],
-    webVitalsAttribution: ["CLS", "LCP"], // تقليل التتبع في التطوير
+    // optimizePackageImports is now stable in Next.js 15, but keeping in experimental for compatibility
   },
 
   // تحسين معالجة المكونات الخارجية
