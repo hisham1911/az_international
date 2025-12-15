@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   FileCheck,
   Microscope,
@@ -8,11 +7,21 @@ import {
   Award,
 } from "lucide-react";
 import Link from "next/link";
+import React from "react";
+
 import { FadeIn } from "@/components/animations/fade-in";
 import { StaggerChildren } from "@/components/animations/stagger-children";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+interface Service {
+  icon: React.ReactElement;
+  title: string;
+  description: string;
+  link: string;
+}
 
 export default function Services() {
-  const services = [
+  const services: Service[] = [
     {
       icon: <FileCheck className="h-10 w-10 text-blue-600" />,
       title: "Quality Assurance & Controls",
