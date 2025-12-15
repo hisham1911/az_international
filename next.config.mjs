@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Set output file tracing root to silence workspace warning
+  outputFileTracingRoot: process.cwd(),
+  
   // Enable strict mode for better development experience
   eslint: {
     dirs: ["app", "components", "lib", "hooks"],
