@@ -2,18 +2,7 @@ import dynamic from "next/dynamic";
 
 import { LazyImage } from "@/components/lazy-image";
 import { Card, CardContent } from "@/components/ui/card";
-
-// Dynamically import animation to reduce main-thread work
-const FadeIn = dynamic(
-  () =>
-    import("@/components/animations/fade-in").then((mod) => ({
-      default: mod.FadeIn,
-    })),
-  {
-    ssr: false,
-    loading: ({ children }) => <div>{children}</div>,
-  }
-);
+import { OptimizedAnimation } from "@/components/ui/optimized-animation";
 
 export default function Clients() {
   const clients = [
@@ -68,46 +57,47 @@ export default function Clients() {
   return (
     <section className="bg-gray-50 py-16">
       <div className="container mx-auto px-4">
-        <FadeIn className="mb-12 text-center">
+        <OptimizedAnimation type="fade" className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold md:text-4xl">Our Clients</h2>
           <p className="mx-auto max-w-3xl text-lg text-gray-600">
             We&apos;re proud to work with leading organizations across various
             industries, providing them with reliable engineering and inspection
             services.
           </p>
-        </FadeIn>
+        </OptimizedAnimation>
 
-        <FadeIn delay={200}>
-          {/* Removed unnecessary wrapper div to flatten DOM */}
-          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {clients.map((client, index) => (
-              <Card
-                key={index}
-                className="h-full border-none bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-              >
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  {/* Simplified image container */}
-                  <div className="mb-4 flex h-32 w-56 items-center justify-center">
-                    <LazyImage
-                      src={client.logo}
-                      alt={`${client.name} logo`}
-                      width={224}
-                      height={128}
-                      className={`max-h-full max-w-full object-contain transition-all duration-300 ${
-                        client.specialClass || ""
-                      }`}
-                      fallback="/placeholder.svg"
-                    />
-                  </div>
-                  <h3 className="mb-2 text-lg font-semibold">{client.name}</h3>
-                  <p className="text-center text-sm text-gray-600">
-                    {client.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </FadeIn>
+        <OptimizedAnimation
+          type="stagger"
+          delay={100}
+          className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {clients.map((client, index) => (
+            <Card
+              key={index}
+              className="h-full border-none bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                {/* Simplified image container */}
+                <div className="mb-4 flex h-32 w-56 items-center justify-center">
+                  <LazyImage
+                    src={client.logo}
+                    alt={`${client.name} logo`}
+                    width={224}
+                    height={128}
+                    className={`max-h-full max-w-full object-contain transition-all duration-300 ${
+                      client.specialClass || ""
+                    }`}
+                    fallback="/placeholder.svg"
+                  />
+                </div>
+                <h3 className="mb-2 text-lg font-semibold">{client.name}</h3>
+                <p className="text-center text-sm text-gray-600">
+                  {client.description}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </OptimizedAnimation>
       </div>
     </section>
   );

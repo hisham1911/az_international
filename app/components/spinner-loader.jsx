@@ -1,12 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 export default function SpinnerLoader() {
   const pathname = usePathname();
   const [showLoader, setShowLoader] = useState(false);
+  const isFirstLoad = useRef(true);
+  const previousPathname = useRef(pathname);
+
+  useEffect(() => {
+    // Skip loader on initial page load - content should render immediately
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      previousPathname.current = pathname;
+      return;
+    }
+
+    // Only show loader when navigating to a different page
+    if (pathname !== previousPathname.current) {
+      setShowLoader(true);
+      previousPathname.current = pathname;
+
+      const timer = setTimeout(() => {
+        setShowLoader(false);
+      }, 200); // Reduced from 300ms
+
+      return () => clearTimeout(timer);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     // Track clicks on navigation links
@@ -35,20 +58,10 @@ export default function SpinnerLoader() {
       }
     };
 
-    // When path changes, show loader only if path actually changed and not just hash
-    if (pathname) {
-      setShowLoader(true);
-    }
-
     document.addEventListener("click", handleLinkClick);
-
-    const timer = setTimeout(() => {
-      setShowLoader(false);
-    }, 300);
 
     return () => {
       document.removeEventListener("click", handleLinkClick);
-      clearTimeout(timer);
     };
   }, [pathname]);
 

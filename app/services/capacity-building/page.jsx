@@ -1,15 +1,11 @@
 import {
   CheckCircle,
-  Shield,
   Award,
   Users,
   GraduationCap,
   BookOpen,
 } from "lucide-react";
-import Image from "next/image";
 
-import { FadeIn } from "@/components/animations/fade-in";
-import { StaggerChildren } from "@/components/animations/stagger-children";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -27,14 +23,36 @@ export default function CapacityBuildingPage() {
       ],
     },
     {
-      title: "Lectures and Group Discussions",
+      title: "NDT Certification Programs",
       description:
-        "Interactive learning sessions combining theoretical knowledge with practical group discussions and peer learning.",
+        "Comprehensive NDT certification training programs following international standards and best practices.",
       features: [
-        "Expert lectures",
-        "Interactive discussions",
-        "Peer learning",
-        "Knowledge sharing",
+        "ASNT certification",
+        "PCN/CSWIP programs",
+        "Hands-on training",
+        "International recognition",
+      ],
+    },
+    {
+      title: "Quality Control Inspection Training",
+      description:
+        "Professional training in quality control inspection methodologies and industry best practices.",
+      features: [
+        "QC methodologies",
+        "Inspection techniques",
+        "Standards compliance",
+        "Practical exercises",
+      ],
+    },
+    {
+      title: "Welding Technology Courses",
+      description:
+        "Comprehensive welding technology training covering procedures, inspection, and certification requirements.",
+      features: [
+        "Welding procedures",
+        "Inspection methods",
+        "Code requirements",
+        "Safety practices",
       ],
     },
     {
@@ -49,58 +67,14 @@ export default function CapacityBuildingPage() {
       ],
     },
     {
-      title: "Pre/Post-Tests and Quizzes",
+      title: "Professional Requalification Programs",
       description:
-        "Comprehensive assessment system with pre and post-training evaluations to measure learning progress.",
-      features: [
-        "Knowledge assessment",
-        "Progress tracking",
-        "Performance metrics",
-        "Certification basis",
-      ],
-    },
-    {
-      title: "Educational Videos",
-      description:
-        "Professional educational video content for visual learning and remote training capabilities.",
-      features: [
-        "Visual learning",
-        "Remote access",
-        "Replay capability",
-        "Multi-format content",
-      ],
-    },
-    {
-      title: "Requalification in NDT Techniques",
-      description:
-        "Periodic requalification training for NDT personnel to maintain certifications and update skills.",
+        "Periodic requalification training for professionals to maintain certifications and update skills.",
       features: [
         "Certification renewal",
         "Skills update",
         "Compliance maintenance",
         "Continuous development",
-      ],
-    },
-    {
-      title: "Capacity Building Courses in Quality Control Inspection",
-      description:
-        "Comprehensive capacity building programs focused on quality control inspection methodologies and best practices.",
-      features: [
-        "QC methodologies",
-        "Best practices",
-        "Industry standards",
-        "Professional development",
-      ],
-    },
-    {
-      title: "Training Methodology According to Required Qualifications",
-      description:
-        "Structured training approaches aligned with international qualification requirements and standards.",
-      features: [
-        "Standards compliance",
-        "Qualification alignment",
-        "Structured approach",
-        "International recognition",
       ],
     },
   ];
@@ -148,17 +122,6 @@ export default function CapacityBuildingPage() {
     },
   ];
 
-  const certifications = [
-    "ASNT Level I, II, III Certification",
-    "PCN/CSWIP Certification Programs",
-    "AWS Certified Welding Inspector",
-    "API 510/570/653 Certification",
-    "ISO 9712 NDT Personnel Qualification",
-    "NACE Coating Inspector Certification",
-    "Company-Specific Certifications",
-    "Continuous Professional Development",
-  ];
-
   const methodology = [
     {
       phase: "Assessment",
@@ -192,6 +155,17 @@ export default function CapacityBuildingPage() {
     },
   ];
 
+  const certifications = [
+    "ASNT Level I, II, III Certification",
+    "PCN/CSWIP Certification Programs",
+    "AWS Certified Welding Inspector",
+    "API 510/570/653 Certification",
+    "ISO 9712 NDT Personnel Qualification",
+    "NACE Coating Inspector Certification",
+    "Company-Specific Certifications",
+    "Continuous Professional Development",
+  ];
+
   const industries = [
     { name: "Oil & Gas", icon: "🛢️" },
     { name: "Petrochemical", icon: "⚗️" },
@@ -207,45 +181,41 @@ export default function CapacityBuildingPage() {
       <section className="relative bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-800 py-20 text-white">
         <div className="absolute inset-0 bg-black/20" />
         <div className="container relative z-10 mx-auto px-4">
-          <FadeIn>
-            <div className="mx-auto max-w-4xl text-center">
-              <h1 className="mb-6 text-4xl font-bold md:text-5xl">
-                Capacity Building Training Services
-              </h1>
-              <p className="mb-8 text-xl opacity-90 md:text-2xl">
-                Professional training and capacity building programs to develop
-                technical expertise and enhance organizational capabilities in
-                quality control and inspection
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Badge variant="secondary" className="px-6 py-2 text-lg">
-                  <GraduationCap className="mr-2 h-5 w-5" />
-                  Professional Training
-                </Badge>
-                <Badge variant="secondary" className="px-6 py-2 text-lg">
-                  <BookOpen className="mr-2 h-5 w-5" />
-                  Capacity Building
-                </Badge>
-                <Badge variant="secondary" className="px-6 py-2 text-lg">
-                  <Award className="mr-2 h-5 w-5" />
-                  Certification Programs
-                </Badge>
-              </div>
+          <div className="mx-auto max-w-4xl text-center">
+            <h1 className="mb-6 text-4xl font-bold md:text-5xl">
+              Capacity Building Training Services
+            </h1>
+            <p className="mb-8 text-xl opacity-90 md:text-2xl">
+              Professional training and capacity building programs to develop
+              technical expertise and enhance organizational capabilities in
+              quality control and inspection
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Badge variant="secondary" className="px-6 py-2 text-lg">
+                <GraduationCap className="mr-2 h-5 w-5" />
+                Professional Training
+              </Badge>
+              <Badge variant="secondary" className="px-6 py-2 text-lg">
+                <BookOpen className="mr-2 h-5 w-5" />
+                Capacity Building
+              </Badge>
+              <Badge variant="secondary" className="px-6 py-2 text-lg">
+                <Award className="mr-2 h-5 w-5" />
+                Certification Programs
+              </Badge>
             </div>
-          </FadeIn>
+          </div>
         </div>
       </section>
 
       {/* Services Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
-            <h2 className="mb-12 text-center text-3xl font-bold">
-              Our Training Services
-            </h2>
-          </FadeIn>
+          <h2 className="mb-12 text-center text-3xl font-bold">
+            Our Training Services
+          </h2>
 
-          <StaggerChildren className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service, index) => (
               <Card
                 key={index}
@@ -269,20 +239,18 @@ export default function CapacityBuildingPage() {
                 </CardContent>
               </Card>
             ))}
-          </StaggerChildren>
+          </div>
         </div>
       </section>
 
       {/* Training Areas */}
       <section className="bg-indigo-50 py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
-            <h2 className="mb-12 text-center text-3xl font-bold">
-              Training Areas & Specializations
-            </h2>
-          </FadeIn>
+          <h2 className="mb-12 text-center text-3xl font-bold">
+            Training Areas & Specializations
+          </h2>
 
-          <StaggerChildren className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {trainingAreas.map((area, index) => (
               <Card
                 key={index}
@@ -305,20 +273,18 @@ export default function CapacityBuildingPage() {
                 </CardContent>
               </Card>
             ))}
-          </StaggerChildren>
+          </div>
         </div>
       </section>
 
       {/* Training Methodology */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
-            <h2 className="mb-12 text-center text-3xl font-bold">
-              Our Training Methodology
-            </h2>
-          </FadeIn>
+          <h2 className="mb-12 text-center text-3xl font-bold">
+            Our Training Methodology
+          </h2>
 
-          <StaggerChildren className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {methodology.map((phase, index) => (
               <Card
                 key={index}
@@ -348,7 +314,7 @@ export default function CapacityBuildingPage() {
                 </CardContent>
               </Card>
             ))}
-          </StaggerChildren>
+          </div>
         </div>
       </section>
 
@@ -356,27 +322,23 @@ export default function CapacityBuildingPage() {
       <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-6xl">
-            <FadeIn>
-              <h2 className="mb-12 text-center text-3xl font-bold">
-                Certification Programs
-              </h2>
-            </FadeIn>
+            <h2 className="mb-12 text-center text-3xl font-bold">
+              Certification Programs
+            </h2>
 
-            <FadeIn delay={200}>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {certifications.map((cert, index) => (
-                  <Card
-                    key={index}
-                    className="p-4 text-center transition-shadow hover:shadow-md"
-                  >
-                    <div className="flex items-center justify-center gap-2">
-                      <Award className="h-5 w-5 text-indigo-600" />
-                      <span className="text-sm font-medium">{cert}</span>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </FadeIn>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {certifications.map((cert, index) => (
+                <Card
+                  key={index}
+                  className="p-4 text-center transition-shadow hover:shadow-md"
+                >
+                  <div className="flex items-center justify-center gap-2">
+                    <Award className="h-5 w-5 text-indigo-600" />
+                    <span className="text-sm font-medium">{cert}</span>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -384,56 +346,50 @@ export default function CapacityBuildingPage() {
       {/* Industries Served */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
-            <h2 className="mb-12 text-center text-3xl font-bold">
-              Industries We Train
-            </h2>
-          </FadeIn>
+          <h2 className="mb-12 text-center text-3xl font-bold">
+            Industries We Train
+          </h2>
 
-          <FadeIn delay={200}>
-            <div className="mx-auto grid max-w-4xl grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-6">
-              {industries.map((industry, index) => (
-                <Card
-                  key={index}
-                  className="p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                >
-                  <div className="mb-2 text-3xl">{industry.icon}</div>
-                  <h3 className="text-sm font-semibold">{industry.name}</h3>
-                </Card>
-              ))}
-            </div>
-          </FadeIn>
+          <div className="mx-auto grid max-w-4xl grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-6">
+            {industries.map((industry, index) => (
+              <Card
+                key={index}
+                className="p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="mb-2 text-3xl">{industry.icon}</div>
+                <h3 className="text-sm font-semibold">{industry.name}</h3>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Call to Action */}
       <section className="bg-gradient-to-r from-indigo-900 to-purple-800 py-16 text-white">
         <div className="container mx-auto px-4 text-center">
-          <FadeIn>
-            <h2 className="mb-6 text-3xl font-bold">
-              Ready to Build Your Team&apos;s Capabilities?
-            </h2>
-            <p className="mx-auto mb-8 max-w-2xl text-xl opacity-90">
-              Invest in your team&apos;s professional development with our
-              comprehensive training programs. Contact us to discuss customized
-              training solutions for your organization.
-            </p>
-            <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <a
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-lg bg-white px-8 py-3 font-semibold text-indigo-900 transition-colors hover:bg-gray-100"
-              >
-                <Users className="mr-2 h-5 w-5" />
-                Discuss Training Needs
-              </a>
-              <a
-                href="tel:+20222879691"
-                className="inline-flex items-center justify-center rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-colors hover:bg-white hover:text-indigo-900"
-              >
-                Call: (02) 22-8-79-691
-              </a>
-            </div>
-          </FadeIn>
+          <h2 className="mb-6 text-3xl font-bold">
+            Ready to Build Your Team&apos;s Capabilities?
+          </h2>
+          <p className="mx-auto mb-8 max-w-2xl text-xl opacity-90">
+            Invest in your team&apos;s professional development with our
+            comprehensive training programs. Contact us to discuss customized
+            training solutions for your organization.
+          </p>
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
+            <a
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-lg bg-white px-8 py-3 font-semibold text-indigo-900 transition-colors hover:bg-gray-100"
+            >
+              <Users className="mr-2 h-5 w-5" />
+              Discuss Training Needs
+            </a>
+            <a
+              href="tel:+20222879691"
+              className="inline-flex items-center justify-center rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-colors hover:bg-white hover:text-indigo-900"
+            >
+              Call: (02) 22-8-79-691
+            </a>
+          </div>
         </div>
       </section>
     </div>

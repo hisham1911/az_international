@@ -1,3 +1,5 @@
+"use client";
+
 import {
   CheckCircle,
   Shield,
@@ -6,59 +8,13 @@ import {
   Wrench,
   Factory,
 } from "lucide-react";
-import Image from "next/image";
 
-import { FadeIn } from "@/components/animations/fade-in";
-import { StaggerChildren } from "@/components/animations/stagger-children";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { OptimizedAnimation } from "@/components/ui/optimized-animation";
 
 export default function FieldIndustrialPage() {
   const services = [
-    {
-      title: "Ultrasonic Testing (UT)",
-      description:
-        "Advanced field ultrasonic testing for in-service inspection of industrial equipment and structures.",
-      features: [
-        "Portable equipment",
-        "Real-time analysis",
-        "Thickness monitoring",
-        "Crack detection",
-      ],
-    },
-    {
-      title: "Magnetic Particle Testing (MT)",
-      description:
-        "On-site magnetic particle inspection for detecting surface and near-surface defects in ferromagnetic materials.",
-      features: [
-        "Portable magnetization",
-        "Field application",
-        "Immediate results",
-        "Surface crack detection",
-      ],
-    },
-    {
-      title: "Dye Penetrant Testing (PT)",
-      description:
-        "Field penetrant testing for surface defect detection in various industrial components.",
-      features: [
-        "Portable systems",
-        "Quick detection",
-        "Surface defects",
-        "Non-destructive method",
-      ],
-    },
-    {
-      title: "Visual Inspection (VT)",
-      description:
-        "Comprehensive visual inspection services for industrial equipment and infrastructure.",
-      features: [
-        "Remote visual inspection",
-        "Borescope techniques",
-        "Digital documentation",
-        "Real-time reporting",
-      ],
-    },
     {
       title: "Pipeline Welding Inspection & NDT",
       description:
@@ -79,17 +35,6 @@ export default function FieldIndustrialPage() {
         "Real-time monitoring",
         "Corrosion assessment",
         "Predictive maintenance",
-      ],
-    },
-    {
-      title: "Pipe Mill Surveillance",
-      description:
-        "Quality control and NDT services for pipe manufacturing facilities ensuring product compliance.",
-      features: [
-        "Manufacturing surveillance",
-        "Quality control",
-        "Product certification",
-        "Standards compliance",
       ],
     },
     {
@@ -115,25 +60,14 @@ export default function FieldIndustrialPage() {
       ],
     },
     {
-      title: "Piping & Headers Inspection",
+      title: "Storage Tank Inspection",
       description:
-        "Detailed inspection services for piping systems and headers in industrial facilities.",
+        "Comprehensive storage tank inspection services including floors, walls, and roofs according to API standards.",
       features: [
-        "System integrity",
-        "Joint inspection",
-        "Corrosion assessment",
-        "Flow optimization",
-      ],
-    },
-    {
-      title: "Towers & Reactors Inspection",
-      description:
-        "Specialized inspection services for process towers and reactor vessels in chemical and petrochemical plants.",
-      features: [
-        "Internal inspection",
-        "Catalyst assessment",
-        "Structural integrity",
-        "Process optimization",
+        "API 653 compliance",
+        "Floor inspection",
+        "Wall assessment",
+        "Roof evaluation",
       ],
     },
     {
@@ -145,17 +79,6 @@ export default function FieldIndustrialPage() {
         "Shell assessment",
         "Performance evaluation",
         "Efficiency optimization",
-      ],
-    },
-    {
-      title: "Storage Tank Inspection",
-      description:
-        "Comprehensive storage tank inspection services including floors, walls, and roofs according to API standards.",
-      features: [
-        "API 653 compliance",
-        "Floor inspection",
-        "Wall assessment",
-        "Roof evaluation",
       ],
     },
   ];
@@ -197,7 +120,7 @@ export default function FieldIndustrialPage() {
       <section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 py-20 text-white">
         <div className="absolute inset-0 bg-black/20" />
         <div className="container relative z-10 mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <div className="mx-auto max-w-4xl text-center">
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">
                 Field/Industrial Inspection Services
@@ -221,20 +144,24 @@ export default function FieldIndustrialPage() {
                 </Badge>
               </div>
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
         </div>
       </section>
 
       {/* Services Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <h2 className="mb-12 text-center text-3xl font-bold">
               Our Field Inspection Services
             </h2>
-          </FadeIn>
+          </OptimizedAnimation>
 
-          <StaggerChildren className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <OptimizedAnimation
+            type="stagger"
+            delay={100}
+            className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+          >
             {services.map((service, index) => (
               <Card
                 key={index}
@@ -258,7 +185,7 @@ export default function FieldIndustrialPage() {
                 </CardContent>
               </Card>
             ))}
-          </StaggerChildren>
+          </OptimizedAnimation>
         </div>
       </section>
 
@@ -266,13 +193,13 @@ export default function FieldIndustrialPage() {
       <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-6xl">
-            <FadeIn>
+            <OptimizedAnimation type="fade">
               <h2 className="mb-12 text-center text-3xl font-bold">
                 Standards & Compliance
               </h2>
-            </FadeIn>
+            </OptimizedAnimation>
 
-            <FadeIn delay={200}>
+            <OptimizedAnimation type="fade" delay={200}>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {standards.map((standard, index) => (
                   <Card
@@ -286,7 +213,7 @@ export default function FieldIndustrialPage() {
                   </Card>
                 ))}
               </div>
-            </FadeIn>
+            </OptimizedAnimation>
           </div>
         </div>
       </section>
@@ -294,13 +221,13 @@ export default function FieldIndustrialPage() {
       {/* Industries Served */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <h2 className="mb-12 text-center text-3xl font-bold">
               Industries We Serve
             </h2>
-          </FadeIn>
+          </OptimizedAnimation>
 
-          <FadeIn delay={200}>
+          <OptimizedAnimation type="fade" delay={200}>
             <div className="mx-auto grid max-w-4xl grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-6">
               {industries.map((industry, index) => (
                 <Card
@@ -312,7 +239,7 @@ export default function FieldIndustrialPage() {
                 </Card>
               ))}
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
         </div>
       </section>
 
@@ -320,13 +247,13 @@ export default function FieldIndustrialPage() {
       <section className="bg-blue-50 py-16">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl">
-            <FadeIn>
+            <OptimizedAnimation type="fade">
               <h2 className="mb-12 text-center text-3xl font-bold">
                 Advanced Equipment & Technology
               </h2>
-            </FadeIn>
+            </OptimizedAnimation>
 
-            <FadeIn delay={200}>
+            <OptimizedAnimation type="fade" delay={200}>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {equipment.map((item, index) => (
                   <div
@@ -338,7 +265,7 @@ export default function FieldIndustrialPage() {
                   </div>
                 ))}
               </div>
-            </FadeIn>
+            </OptimizedAnimation>
           </div>
         </div>
       </section>
@@ -346,7 +273,7 @@ export default function FieldIndustrialPage() {
       {/* Call to Action */}
       <section className="bg-gradient-to-r from-blue-900 to-blue-700 py-16 text-white">
         <div className="container mx-auto px-4 text-center">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <h2 className="mb-6 text-3xl font-bold">
               Ready to Ensure Your Industrial Equipment Integrity?
             </h2>
@@ -370,7 +297,7 @@ export default function FieldIndustrialPage() {
                 Call: (02) 22-8-79-691
               </a>
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
         </div>
       </section>
     </div>

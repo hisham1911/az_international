@@ -16,16 +16,7 @@ const CountUp = dynamic(
   }
 );
 
-const FadeIn = dynamic(
-  () =>
-    import("@/components/animations/fade-in").then((mod) => ({
-      default: mod.FadeIn,
-    })),
-  {
-    ssr: false, // Fade animation doesn't need SSR
-    loading: () => <div />, // Show empty div while loading animation
-  }
-);
+import { OptimizedAnimation } from "@/components/ui/optimized-animation";
 
 interface Stat {
   icon: React.ReactElement;
@@ -66,33 +57,38 @@ export default function Stats() {
   return (
     <section className="bg-gray-50 py-16">
       <div className="container mx-auto px-4">
-        <FadeIn>
+        <OptimizedAnimation type="fade">
           <h2 className="mb-12 text-center text-3xl font-bold md:text-4xl">
             Our Achievements
           </h2>
-        </FadeIn>
+        </OptimizedAnimation>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <OptimizedAnimation
+          type="stagger"
+          delay={100}
+          className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4"
+        >
           {stats.map((stat, index) => (
-            <FadeIn key={index} delay={index * 100} direction="up">
-              <Card className="border-t-4 border-blue-600 text-center transition-shadow hover:shadow-md">
-                <CardContent className="pt-6">
-                  <div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-blue-100">
-                    {stat.icon}
-                  </div>
-                  <h3 className="mb-2 text-4xl font-bold text-gray-800">
-                    <CountUp
-                      end={stat.value}
-                      prefix={stat.prefix || ""}
-                      suffix={stat.suffix || ""}
-                    />
-                  </h3>
-                  <p className="text-gray-600">{stat.label}</p>
-                </CardContent>
-              </Card>
-            </FadeIn>
+            <Card
+              key={index}
+              className="border-t-4 border-blue-600 text-center transition-shadow hover:shadow-md"
+            >
+              <CardContent className="pt-6">
+                <div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-blue-100">
+                  {stat.icon}
+                </div>
+                <h3 className="mb-2 text-4xl font-bold text-gray-800">
+                  <CountUp
+                    end={stat.value}
+                    prefix={stat.prefix || ""}
+                    suffix={stat.suffix || ""}
+                  />
+                </h3>
+                <p className="text-gray-600">{stat.label}</p>
+              </CardContent>
+            </Card>
           ))}
-        </div>
+        </OptimizedAnimation>
       </div>
     </section>
   );

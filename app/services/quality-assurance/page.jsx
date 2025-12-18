@@ -1,17 +1,16 @@
-import {
-  CheckCircle,
-  Shield,
-  Award,
-  Users,
-  Microscope,
-  ClipboardCheck,
-} from "lucide-react";
-import Image from "next/image";
+"use client";
 
-import { FadeIn } from "@/components/animations/fade-in";
-import { StaggerChildren } from "@/components/animations/stagger-children";
+import {
+  Shield,
+  ClipboardCheck,
+  Award,
+  CheckCircle,
+  Users,
+} from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { OptimizedAnimation } from "@/components/ui/optimized-animation";
 
 export default function QualityAssurancePage() {
   const services = [
@@ -81,28 +80,6 @@ export default function QualityAssurancePage() {
         "Certification documentation",
       ],
     },
-    {
-      title: "Welder Performance Qualifications",
-      description:
-        "Assessment and certification of welder performance according to international welding standards.",
-      features: [
-        "Performance assessment",
-        "Skill certification",
-        "Standards compliance",
-        "Ongoing monitoring",
-      ],
-    },
-    {
-      title: "Coating/Painting Inspection",
-      description:
-        "Complete coating and painting inspection services from surface preparation to final application.",
-      features: [
-        "Surface preparation",
-        "Application monitoring",
-        "Thickness measurement",
-        "Adhesion testing",
-      ],
-    },
   ];
 
   const standards = [
@@ -154,7 +131,7 @@ export default function QualityAssurancePage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-900 to-blue-700 py-16 text-white">
         <div className="container mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <div className="mx-auto max-w-4xl text-center">
               <div className="mb-6 flex items-center justify-center">
                 <Shield className="mr-4 h-16 w-16 text-blue-300" />
@@ -189,14 +166,14 @@ export default function QualityAssurancePage() {
                 </Badge>
               </div>
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
         </div>
       </section>
 
       {/* Services Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <div className="mb-12 text-center">
               <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
                 Our QA/QC Services
@@ -207,9 +184,13 @@ export default function QualityAssurancePage() {
                 and performance in your operations.
               </p>
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
 
-          <StaggerChildren className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <OptimizedAnimation
+            type="stagger"
+            delay={100}
+            className="grid grid-cols-1 gap-8 md:grid-cols-2"
+          >
             {services.map((service, index) => (
               <Card
                 key={index}
@@ -237,14 +218,14 @@ export default function QualityAssurancePage() {
                 </CardContent>
               </Card>
             ))}
-          </StaggerChildren>
+          </OptimizedAnimation>
         </div>
       </section>
 
       {/* Standards Section */}
       <section className="bg-white py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <div className="mb-12 text-center">
               <Award className="mx-auto mb-4 h-12 w-12 text-blue-600" />
               <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
@@ -256,9 +237,9 @@ export default function QualityAssurancePage() {
                 inspections and certifications.
               </p>
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
 
-          <FadeIn delay={200}>
+          <OptimizedAnimation type="fade" delay={200}>
             <div className="mx-auto grid max-w-4xl grid-cols-2 gap-4 md:grid-cols-4">
               {standards.map((standard, index) => (
                 <div
@@ -271,14 +252,14 @@ export default function QualityAssurancePage() {
                 </div>
               ))}
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
         </div>
       </section>
 
       {/* Industries Served */}
       <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <div className="mb-12 text-center">
               <Users className="mx-auto mb-4 h-12 w-12 text-blue-600" />
               <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
@@ -289,9 +270,13 @@ export default function QualityAssurancePage() {
                 across diverse industrial sectors.
               </p>
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
 
-          <StaggerChildren className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <OptimizedAnimation
+            type="stagger"
+            delay={100}
+            className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          >
             {industries.map((industry, index) => (
               <Card
                 key={index}
@@ -308,72 +293,14 @@ export default function QualityAssurancePage() {
                 </CardContent>
               </Card>
             ))}
-          </StaggerChildren>
-        </div>
-      </section>
-
-      {/* Equipment & Technology */}
-      <section className="bg-white py-16">
-        <div className="container mx-auto px-4">
-          <FadeIn>
-            <div className="mb-12 text-center">
-              <Microscope className="mx-auto mb-4 h-12 w-12 text-blue-600" />
-              <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
-                State-of-the-Art Equipment
-              </h2>
-              <p className="mx-auto max-w-3xl text-lg text-gray-600">
-                We utilize the latest technology and equipment to deliver
-                accurate, reliable, and efficient inspection services.
-              </p>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={200}>
-            <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-2">
-              <Card className="border-l-4 border-blue-600">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <ClipboardCheck className="h-6 w-6 text-blue-600" />
-                    Advanced NDT Equipment
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-gray-700">
-                    <li>• Digital ultrasonic flaw detectors</li>
-                    <li>• Portable magnetic particle testing units</li>
-                    <li>• Fluorescent penetrant inspection systems</li>
-                    <li>• High-resolution borescopes and videoscopes</li>
-                    <li>• Computerized thickness measurement systems</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="border-l-4 border-green-600">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Award className="h-6 w-6 text-green-600" />
-                    Calibration & Certification
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-gray-700">
-                    <li>• All equipment regularly calibrated</li>
-                    <li>• Traceable calibration certificates</li>
-                    <li>• NIST-traceable standards</li>
-                    <li>• Equipment validation procedures</li>
-                    <li>• Comprehensive maintenance programs</li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          </FadeIn>
+          </OptimizedAnimation>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 py-16 text-white">
         <div className="container mx-auto px-4 text-center">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <h2 className="mb-4 text-3xl font-bold md:text-4xl">
               Ready to Ensure Quality Excellence?
             </h2>
@@ -389,7 +316,7 @@ export default function QualityAssurancePage() {
                 Learn More
               </button>
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
         </div>
       </section>
     </div>

@@ -1,10 +1,10 @@
-import { CheckCircle, Shield, Award, Users, Zap, Search } from "lucide-react";
-import Image from "next/image";
+"use client";
 
-import { FadeIn } from "@/components/animations/fade-in";
-import { StaggerChildren } from "@/components/animations/stagger-children";
+import { CheckCircle, Shield, Award, Users, Zap, Search } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { OptimizedAnimation } from "@/components/ui/optimized-animation";
 
 export default function StandardNDTPage() {
   const services = [
@@ -72,50 +72,6 @@ export default function StandardNDTPage() {
         "Visible dye methods",
         "Surface crack detection",
         "High sensitivity",
-      ],
-    },
-    {
-      title: "Computerized Ultrasonic Mapping Inspection",
-      description:
-        "Advanced computerized ultrasonic mapping for detailed corrosion mapping and thickness surveys.",
-      features: [
-        "Digital mapping",
-        "Corrosion visualization",
-        "Data analysis",
-        "Trend monitoring",
-      ],
-    },
-    {
-      title: "Complete Storage Tanks Inspection (Walls & Floors)",
-      description:
-        "Comprehensive storage tank inspection covering walls, floors, and roofs according to API standards.",
-      features: [
-        "Wall inspection",
-        "Floor assessment",
-        "Roof evaluation",
-        "API compliance",
-      ],
-    },
-    {
-      title: "Leak Detection and Testing",
-      description:
-        "Advanced leak detection services using various NDT methods to identify and locate leaks.",
-      features: [
-        "Multiple techniques",
-        "Leak location",
-        "Sensitivity testing",
-        "Environmental safety",
-      ],
-    },
-    {
-      title: "Pipeline Inspection",
-      description:
-        "Comprehensive pipeline inspection services using various NDT methods for integrity assessment.",
-      features: [
-        "Integrity assessment",
-        "Corrosion detection",
-        "Wall thickness",
-        "Defect identification",
       ],
     },
   ];
@@ -200,7 +156,7 @@ export default function StandardNDTPage() {
       <section className="relative bg-gradient-to-r from-green-900 via-green-800 to-teal-800 py-20 text-white">
         <div className="absolute inset-0 bg-black/20" />
         <div className="container relative z-10 mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <div className="mx-auto max-w-4xl text-center">
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">
                 Standard NDT Services
@@ -225,20 +181,24 @@ export default function StandardNDTPage() {
                 </Badge>
               </div>
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
         </div>
       </section>
 
       {/* Services Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <h2 className="mb-12 text-center text-3xl font-bold">
               Our Standard NDT Services
             </h2>
-          </FadeIn>
+          </OptimizedAnimation>
 
-          <StaggerChildren className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <OptimizedAnimation
+            type="stagger"
+            delay={100}
+            className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+          >
             {services.map((service, index) => (
               <Card
                 key={index}
@@ -262,20 +222,24 @@ export default function StandardNDTPage() {
                 </CardContent>
               </Card>
             ))}
-          </StaggerChildren>
+          </OptimizedAnimation>
         </div>
       </section>
 
       {/* NDT Techniques */}
       <section className="bg-green-50 py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <h2 className="mb-12 text-center text-3xl font-bold">
               Standard NDT Techniques
             </h2>
-          </FadeIn>
+          </OptimizedAnimation>
 
-          <StaggerChildren className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-2">
+          <OptimizedAnimation
+            type="stagger"
+            delay={100}
+            className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-2"
+          >
             {techniques.map((technique, index) => (
               <Card
                 key={index}
@@ -300,7 +264,7 @@ export default function StandardNDTPage() {
                 </CardContent>
               </Card>
             ))}
-          </StaggerChildren>
+          </OptimizedAnimation>
         </div>
       </section>
 
@@ -308,13 +272,13 @@ export default function StandardNDTPage() {
       <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-6xl">
-            <FadeIn>
+            <OptimizedAnimation type="fade">
               <h2 className="mb-12 text-center text-3xl font-bold">
                 Standards & Compliance
               </h2>
-            </FadeIn>
+            </OptimizedAnimation>
 
-            <FadeIn delay={200}>
+            <OptimizedAnimation type="fade" delay={200}>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {standards.map((standard, index) => (
                   <Card
@@ -328,7 +292,7 @@ export default function StandardNDTPage() {
                   </Card>
                 ))}
               </div>
-            </FadeIn>
+            </OptimizedAnimation>
           </div>
         </div>
       </section>
@@ -336,13 +300,13 @@ export default function StandardNDTPage() {
       {/* Industries Served */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <h2 className="mb-12 text-center text-3xl font-bold">
               Industries We Serve
             </h2>
-          </FadeIn>
+          </OptimizedAnimation>
 
-          <FadeIn delay={200}>
+          <OptimizedAnimation type="fade" delay={200}>
             <div className="mx-auto grid max-w-4xl grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-6">
               {industries.map((industry, index) => (
                 <Card
@@ -354,7 +318,7 @@ export default function StandardNDTPage() {
                 </Card>
               ))}
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
         </div>
       </section>
 
@@ -362,13 +326,13 @@ export default function StandardNDTPage() {
       <section className="bg-green-50 py-16">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl">
-            <FadeIn>
+            <OptimizedAnimation type="fade">
               <h2 className="mb-12 text-center text-3xl font-bold">
                 NDT Equipment & Technology
               </h2>
-            </FadeIn>
+            </OptimizedAnimation>
 
-            <FadeIn delay={200}>
+            <OptimizedAnimation type="fade" delay={200}>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {equipment.map((item, index) => (
                   <div
@@ -380,7 +344,7 @@ export default function StandardNDTPage() {
                   </div>
                 ))}
               </div>
-            </FadeIn>
+            </OptimizedAnimation>
           </div>
         </div>
       </section>
@@ -388,7 +352,7 @@ export default function StandardNDTPage() {
       {/* Call to Action */}
       <section className="bg-gradient-to-r from-green-900 to-teal-800 py-16 text-white">
         <div className="container mx-auto px-4 text-center">
-          <FadeIn>
+          <OptimizedAnimation type="fade">
             <h2 className="mb-6 text-3xl font-bold">
               Need Reliable NDT Services?
             </h2>
@@ -412,7 +376,7 @@ export default function StandardNDTPage() {
                 Call: (02) 22-8-79-691
               </a>
             </div>
-          </FadeIn>
+          </OptimizedAnimation>
         </div>
       </section>
     </div>

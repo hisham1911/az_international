@@ -13,12 +13,12 @@ import {
 import { useRouter } from "next/navigation";
 import { useState, useCallback, useMemo } from "react";
 
-import { FadeIn } from "@/components/animations/fade-in";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { OptimizedAnimation } from "@/components/ui/optimized-animation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   searchServiceByName,
@@ -170,7 +170,7 @@ export default function CertificatesPage() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <FadeIn>
+      <OptimizedAnimation type="fade">
         <h1 className="mb-6 text-center text-3xl font-bold md:text-4xl">
           Certificate Verification
         </h1>
@@ -180,9 +180,9 @@ export default function CertificatesPage() {
           searching with the trainee&apos;s name or the certificate&apos;s
           serial number
         </p>
-      </FadeIn>
+      </OptimizedAnimation>
 
-      <FadeIn delay={200}>
+      <OptimizedAnimation type="fade" delay={200}>
         <Card className="mx-auto mb-10 max-w-3xl transition-all duration-300 hover:shadow-md">
           <CardHeader>
             <CardTitle className="text-center text-xl">
@@ -264,10 +264,10 @@ export default function CertificatesPage() {
             </Tabs>
           </CardContent>
         </Card>
-      </FadeIn>
+      </OptimizedAnimation>
 
       {searchPerformed && (
-        <FadeIn delay={300}>
+        <OptimizedAnimation type="fade" delay={300}>
           {certificates.length > 0 ? (
             <div className="space-y-6">
               {certificates.length > 1 && (
@@ -354,7 +354,7 @@ export default function CertificatesPage() {
               </AlertDescription>
             </Alert>
           ) : null}
-        </FadeIn>
+        </OptimizedAnimation>
       )}
     </div>
   );
