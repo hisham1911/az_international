@@ -17,7 +17,11 @@ function AdminSidebar() {
   const router = useRouter();
 
   const handleLogout = () => {
+    // Clear all auth data
     localStorage.removeItem("adminAuthenticated");
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminEmail");
+    localStorage.removeItem("adminRole");
     // Using window.location instead of router.push for a full reload
     window.location.href = "/adminAZ/login";
   };
@@ -96,9 +100,10 @@ export default function AdminLayout({ children }) {
       // Simulate verification delay
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Check for login data in localStorage
+      // Check for login data in localStorage (both auth flag and token)
       const isAdmin = localStorage.getItem("adminAuthenticated") === "true";
-      setIsAuthenticated(isAdmin);
+      const hasToken = !!localStorage.getItem("adminToken");
+      setIsAuthenticated(isAdmin && hasToken);
       setIsLoading(false);
     };
 

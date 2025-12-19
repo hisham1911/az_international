@@ -88,12 +88,11 @@ export default function CertificatesPage() {
 
       let results = [];
 
-      // Search based on type
+      // Search based on type using new API
       if (type === "serial") {
         try {
           results = await searchServiceBySerialNumber(searchTerm);
         } catch (serialError) {
-          // Display user-friendly error message
           setError(`Error searching by serial number: ${serialError.message}`);
           setCertificates({});
           setLoading(false);
@@ -104,7 +103,6 @@ export default function CertificatesPage() {
         try {
           results = await searchServiceByName(searchTerm);
         } catch (nameError) {
-          // Display user-friendly error message
           setError(`Error searching by name: ${nameError.message}`);
           setCertificates({});
           setLoading(false);
@@ -118,18 +116,18 @@ export default function CertificatesPage() {
         return;
       }
 
-      // Group certificates by name
+      // Group certificates by person name (new API structure)
       const groupedCertificates = {};
       results.forEach((cert) => {
-        if (!groupedCertificates[cert.name]) {
-          groupedCertificates[cert.name] = [];
+        const personName = cert.personName || cert.name;
+        if (!groupedCertificates[personName]) {
+          groupedCertificates[personName] = [];
         }
-        groupedCertificates[cert.name].push(cert);
+        groupedCertificates[personName].push(cert);
       });
 
       setCertificates(groupedCertificates);
     } catch (error) {
-      // Display friendly message to user without logging to console
       setError(
         "An error occurred during search. Please try again or contact support."
       );
@@ -192,7 +190,7 @@ export default function CertificatesPage() {
 
       // Refresh search results if there's an active search
       if (hasSearched && searchQuery) {
-        handleSearch();
+        searchCertificates(searchQuery, searchType);
       }
 
       // Method 1: Show success message in UI
@@ -251,7 +249,7 @@ export default function CertificatesPage() {
       // Show success message
       toast({
         title: "Certificate Deleted",
-        description: `Certificate ${id} has been successfully deleted.`,
+        description: `Certificate has been successfully deleted.`,
       });
 
       // Remove certificate from state by filtering it out of all groups
@@ -261,7 +259,7 @@ export default function CertificatesPage() {
         // Go through each name group
         Object.entries(prevCertificates).forEach(([name, certs]) => {
           // Filter out the deleted certificate
-          const updatedCerts = certs.filter((cert) => cert.srId !== id);
+          const updatedCerts = certs.filter((cert) => cert.id !== id);
 
           // Only add back non-empty groups
           if (updatedCerts.length > 0) {
@@ -272,7 +270,7 @@ export default function CertificatesPage() {
         return updatedCertificates;
       });
     } catch (error) {
-      // Show specific error message from API without logging to console
+      // Show specific error message from API
       toast({
         title: "Error",
         description:
@@ -532,7 +530,8 @@ export default function CertificatesPage() {
                       <TableHead className="w-[120px]">Serial Number</TableHead>
                       <TableHead className="w-[150px]">Method</TableHead>
                       <TableHead className="w-[120px]">Type</TableHead>
-                      <TableHead className="w-[120px]">End Date</TableHead>
+                      <TableHead className="w-[120px]">Expiry Date</TableHead>
+                      <TableHead className="w-[100px]">Status</TableHead>
                       <TableHead className="w-[100px] text-right">
                         Actions
                       </TableHead>
@@ -540,29 +539,40 @@ export default function CertificatesPage() {
                   </TableHeader>
                   <TableBody>
                     {certs.map((cert) => (
-                      <TableRow
-                        key={`${cert.srId}-${cert.method}`}
-                        className="hover:bg-muted/50"
-                      >
+                      <TableRow key={cert.id} className="hover:bg-muted/50">
                         <TableCell className="font-medium">
-                          {cert.s_N || "N/A"}
+                          {cert.serialNumber || "N/A"}
                         </TableCell>
                         <TableCell>
                           <Badge variant="secondary" className="font-normal">
-                            {getServiceMethodLabel(cert.method)}
+                            {getServiceMethodLabel(cert.serviceMethod)}
                           </Badge>
                         </TableCell>
                         <TableCell>
                           <Badge variant="outline" className="font-normal">
-                            {getCertificateTypeLabel(cert.type)}
+                            {getCertificateTypeLabel(cert.certificateType)}
                           </Badge>
                         </TableCell>
-                        <TableCell>{formatDate(cert.endDate)}</TableCell>
+                        <TableCell>{formatDate(cert.expiryDate)}</TableCell>
+                        <TableCell>
+                          {cert.isExpired ? (
+                            <Badge
+                              variant="destructive"
+                              className="font-normal"
+                            >
+                              Expired
+                            </Badge>
+                          ) : (
+                            <Badge variant="default" className="font-normal">
+                              Active
+                            </Badge>
+                          )}
+                        </TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">
                             <Button variant="outline" size="icon" asChild>
                               <Link
-                                href={`/adminAZ/certificates/edit/${cert.srId}`}
+                                href={`/adminAZ/certificates/edit/${cert.id}`}
                                 className="hover:bg-muted"
                               >
                                 <EditIcon className="h-4 w-4" />
@@ -571,7 +581,7 @@ export default function CertificatesPage() {
                             <Button
                               variant="destructive"
                               size="icon"
-                              onClick={() => handleDeleteCertificate(cert.srId)}
+                              onClick={() => handleDeleteCertificate(cert.id)}
                               className="hover:bg-destructive/90"
                             >
                               <TrashIcon className="h-4 w-4" />

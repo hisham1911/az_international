@@ -5,11 +5,15 @@
  */
 
 // إعدادات API
-const API_URL = "https://azinternational-eg.com/api";
+// Use environment variable or fallback to Railway deployed backend
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://azbackendnew-production-817b.up.railway.app/api";
 
 interface LoginResponse {
   success: boolean;
   message: string;
+  token?: string;
 }
 
 /**
@@ -17,7 +21,28 @@ interface LoginResponse {
  */
 export function isAuthenticated(): boolean {
   if (typeof window === "undefined") return false;
-  return localStorage.getItem("adminAuthenticated") === "true";
+  const token = localStorage.getItem("adminToken");
+  const authenticated = localStorage.getItem("adminAuthenticated") === "true";
+  return authenticated && !!token;
+}
+
+/**
+ * الحصول على JWT Token
+ */
+export function getAuthToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("adminToken");
+}
+
+/**
+ * الحصول على headers للطلبات المصادق عليها
+ */
+export function getAuthHeaders(): HeadersInit {
+  const token = getAuthToken();
+  return {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
 }
 
 /**
@@ -28,7 +53,8 @@ export async function login(
   password: string
 ): Promise<LoginResponse> {
   try {
-    const response = await fetch(`${API_URL}/Acount/login`, {
+    // Try new Auth API first
+    const response = await fetch(`${API_URL}/Auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,16 +65,24 @@ export async function login(
       }),
     });
 
-    const data = await response.text();
-
-    if (data.includes("Login successful")) {
-      // تخزين حالة تسجيل الدخول
+    if (response.ok) {
+      const data = await response.json();
+      // Store JWT token and authentication state
+      localStorage.setItem("adminToken", data.token);
       localStorage.setItem("adminAuthenticated", "true");
-      return { success: true, message: "تم تسجيل الدخول بنجاح" };
+      localStorage.setItem("adminEmail", data.email);
+      localStorage.setItem("adminRole", data.role);
+      return {
+        success: true,
+        message: "تم تسجيل الدخول بنجاح",
+        token: data.token,
+      };
     } else {
+      const errorData = await response.json().catch(() => ({}));
       return {
         success: false,
-        message: "فشل تسجيل الدخول: بيانات الاعتماد غير صالحة",
+        message:
+          errorData.message || "فشل تسجيل الدخول: بيانات الاعتماد غير صالحة",
       };
     }
   } catch (error) {
@@ -64,4 +98,7 @@ export async function login(
  */
 export function logout(): void {
   localStorage.removeItem("adminAuthenticated");
+  localStorage.removeItem("adminToken");
+  localStorage.removeItem("adminEmail");
+  localStorage.removeItem("adminRole");
 }
