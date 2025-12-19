@@ -17,7 +17,6 @@ import {
 import { getServiceMethodLabel, getCertificateTypeLabel } from "@/lib/enums";
 
 export default function CertificatesPage() {
-  const router = useRouter();
   const [searchType, setSearchType] = useState("name");
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);

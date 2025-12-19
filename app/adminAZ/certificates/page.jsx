@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Search,
-  Plus,
-  CheckCircle,
-  XCircle,
-  AlertCircle,
-  Loader2,
-  FileSpreadsheet,
-} from "lucide-react";
+import { Search, Plus, Loader2, FileSpreadsheet } from "lucide-react";
 import { Edit as EditIcon, Trash2 as TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
