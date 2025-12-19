@@ -29,7 +29,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { createService } from "@/lib/api-services";
 import { ServiceMethodOptions, CertificateTypeOptions } from "@/lib/enums";

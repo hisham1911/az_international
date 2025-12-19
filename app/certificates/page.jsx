@@ -1,17 +1,7 @@
 "use client";
 
-import {
-  Search,
-  FileText,
-  Calendar,
-  Award,
-  User,
-  Hash,
-  Loader2,
-  QrCode,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState, useCallback, useMemo } from "react";
+import { Search, Calendar, Award, User, Hash, Loader2 } from "lucide-react";
+import { useState, useCallback } from "react";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -153,11 +143,6 @@ export default function CertificatesPage() {
       setCertificates,
     ]
   );
-
-  // دالة للتنقل إلى تفاصيل الشهادة
-  const viewCertificateDetails = (serialNumber) => {
-    router.push(`/certificates/${serialNumber}`);
-  };
 
   return (
     <div className="container mx-auto px-4 py-12">

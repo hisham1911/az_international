@@ -1,18 +1,12 @@
 "use client";
 
 import {
-  Award,
   Search,
   Plus,
-  MoreHorizontal,
-  Trash2,
-  Edit,
   CheckCircle,
   XCircle,
   AlertCircle,
-  AlertTriangle,
   Loader2,
-  Upload,
   FileSpreadsheet,
 } from "lucide-react";
 import { Edit as EditIcon, Trash2 as TrashIcon } from "lucide-react";
@@ -24,12 +18,6 @@ import { FadeIn } from "@/components/animations/fade-in";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -47,7 +35,6 @@ import {
   uploadExcelFile,
 } from "@/lib/api-services";
 import { getServiceMethodLabel, getCertificateTypeLabel } from "@/lib/enums";
-import { formatDateForDisplay } from "@/utils/date-utils";
 
 /**
  * Certificate Management Page
@@ -186,7 +173,7 @@ export default function CertificatesPage() {
       setError(null);
 
       // Upload the file
-      const result = await uploadExcelFile(file);
+      await uploadExcelFile(file);
 
       // Refresh search results if there's an active search
       if (hasSearched && searchQuery) {
@@ -227,14 +214,6 @@ export default function CertificatesPage() {
     } finally {
       setIsUploading(false);
     }
-  };
-
-  /**
-   * Navigate to edit certificate page
-   * @param {string} id - Certificate ID
-   */
-  const handleEditCertificate = (id) => {
-    router.push(`/adminAZ/certificates/edit/${id}`);
   };
 
   /**
@@ -281,54 +260,6 @@ export default function CertificatesPage() {
   };
 
   /**
-   * Get appropriate status badge
-   * @param {string} status - Certificate status
-   * @returns {JSX.Element} - Status badge component
-   */
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case "active":
-        return (
-          <Badge
-            variant="outline"
-            className="flex items-center gap-1 border-green-200 bg-green-50 text-green-700"
-          >
-            <CheckCircle className="h-3 w-3" /> Active
-          </Badge>
-        );
-      case "expired":
-        return (
-          <Badge
-            variant="outline"
-            className="flex items-center gap-1 border-red-200 bg-red-50 text-red-700"
-          >
-            <XCircle className="h-3 w-3" /> Expired
-          </Badge>
-        );
-      case "revoked":
-        return (
-          <Badge
-            variant="outline"
-            className="flex items-center gap-1 border-gray-200 bg-gray-50 text-gray-700"
-          >
-            <XCircle className="h-3 w-3" /> Revoked
-          </Badge>
-        );
-      case "expiring_soon":
-        return (
-          <Badge
-            variant="outline"
-            className="flex items-center gap-1 border-orange-200 bg-orange-50 text-orange-700"
-          >
-            <AlertCircle className="h-3 w-3" /> Expiring Soon
-          </Badge>
-        );
-      default:
-        return null;
-    }
-  };
-
-  /**
    * Format date for display
    * @param {string} dateString - Date string to format
    * @returns {string} - Formatted date
@@ -345,23 +276,6 @@ export default function CertificatesPage() {
     } catch (error) {
       return "Invalid date";
     }
-  };
-
-  /**
-   * Get location string from certificate
-   * @param {Object} cert - Certificate object
-   * @returns {string} - Formatted location string
-   */
-  const getLocationString = (cert) => {
-    // Remove debug logging
-    const parts = [];
-    if (cert.streetAddress && cert.streetAddress.trim())
-      parts.push(cert.streetAddress.trim());
-    if (cert.state && cert.state.trim()) parts.push(cert.state.trim());
-    if (cert.country && cert.country.trim()) parts.push(cert.country.trim());
-
-    // If we have any parts, join them with comma, otherwise return N/A
-    return parts.length > 0 ? parts.join(", ") : "N/A";
   };
 
   return (

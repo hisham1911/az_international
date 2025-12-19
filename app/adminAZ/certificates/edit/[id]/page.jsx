@@ -32,7 +32,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { updateService, getServiceById } from "@/lib/api-services";
 import { ServiceMethodOptions, CertificateTypeOptions } from "@/lib/enums";
@@ -161,7 +160,10 @@ export default function EditCertificatePage({ params }) {
         serialNumber: formData.serialNumber,
         serviceMethod: parseInt(formData.serviceMethod),
         certificateType: parseInt(formData.certificateType),
-        expiryDate: formData.expiryDate.toISOString(),
+        expiryDate:
+          formData.expiryDate instanceof Date
+            ? formData.expiryDate.toISOString()
+            : new Date(formData.expiryDate).toISOString(),
       };
 
       await updateService(certificateId, updatedData);

@@ -31,14 +31,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { createService } from "@/lib/api-services";
-import {
-  ServiceMethod,
-  ServiceMethodOptions,
-  CertificateTypeOptions,
-} from "@/lib/enums";
+import { ServiceMethodOptions, CertificateTypeOptions } from "@/lib/enums";
 import { cn } from "@/lib/utils";
 
 export default function AddCertificatePage() {
@@ -115,10 +110,13 @@ export default function AddCertificatePage() {
         serialNumber: formData.serialNumber,
         serviceMethod: parseInt(formData.serviceMethod),
         certificateType: parseInt(formData.certificateType),
-        expiryDate: formData.expiryDate.toISOString(),
+        expiryDate:
+          formData.expiryDate instanceof Date
+            ? formData.expiryDate.toISOString()
+            : new Date(formData.expiryDate).toISOString(),
       };
 
-      const result = await createService(certificateData);
+      await createService(certificateData);
 
       toast({
         title: "Success",
