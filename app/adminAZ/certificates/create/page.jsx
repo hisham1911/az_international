@@ -46,11 +46,11 @@ export default function CreateCertificatePage() {
 
   // Certificate creation form state
   const [formData, setFormData] = useState({
-    name: "", // Certificate Name
-    s_N: `CERT-${Math.floor(10000 + Math.random() * 90000)}`, // Serial Number
-    method: "1", // Certificate Method
-    type: "1", // Certificate Type
-    endDate: addYears(new Date(), 2), // Expiry Date
+    personName: "", // Certificate holder name
+    serialNumber: `CERT-${Math.floor(10000 + Math.random() * 90000)}`, // Serial Number
+    serviceMethod: "1", // Service Method (VT, PT, MT, RT, UT)
+    certificateType: "1", // Certificate Type (Initial, Recertificate)
+    expiryDate: addYears(new Date(), 2), // Expiry Date
   });
 
   // Form submission state
@@ -104,11 +104,11 @@ export default function CreateCertificatePage() {
 
     try {
       const serviceData = {
-        name: formData.name,
-        s_N: formData.s_N,
-        method: parseInt(formData.method),
-        type: parseInt(formData.type),
-        endDate: formData.endDate.toISOString(),
+        personName: formData.personName,
+        serialNumber: formData.serialNumber,
+        serviceMethod: parseInt(formData.serviceMethod),
+        certificateType: parseInt(formData.certificateType),
+        expiryDate: formData.expiryDate.toISOString(),
       };
 
       await createService(serviceData);
@@ -165,12 +165,12 @@ export default function CreateCertificatePage() {
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="name">Certificate Name</Label>
+                    <Label htmlFor="personName">Person Name</Label>
                     <Input
-                      id="name"
-                      name="name"
-                      placeholder="Enter certificate name"
-                      value={formData.name}
+                      id="personName"
+                      name="personName"
+                      placeholder="Enter person name"
+                      value={formData.personName}
                       onChange={handleInputChange}
                       className="mt-1"
                       required
@@ -178,12 +178,12 @@ export default function CreateCertificatePage() {
                   </div>
 
                   <div>
-                    <Label htmlFor="s_N">Serial Number</Label>
+                    <Label htmlFor="serialNumber">Serial Number</Label>
                     <Input
-                      id="s_N"
-                      name="s_N"
+                      id="serialNumber"
+                      name="serialNumber"
                       placeholder="Enter serial number"
-                      value={formData.s_N}
+                      value={formData.serialNumber}
                       onChange={handleInputChange}
                       className="mt-1"
                       required
@@ -191,15 +191,15 @@ export default function CreateCertificatePage() {
                   </div>
 
                   <div>
-                    <Label htmlFor="method">Certificate Method</Label>
+                    <Label htmlFor="serviceMethod">Service Method</Label>
                     <Select
-                      value={formData.method}
+                      value={formData.serviceMethod}
                       onValueChange={(value) =>
-                        handleSelectChange(value, "method")
+                        handleSelectChange(value, "serviceMethod")
                       }
                     >
                       <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Select certificate method" />
+                        <SelectValue placeholder="Select service method" />
                       </SelectTrigger>
                       <SelectContent>
                         {ServiceMethodOptions.map((option) => (
@@ -217,11 +217,11 @@ export default function CreateCertificatePage() {
 
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="type">Certificate Type</Label>
+                    <Label htmlFor="certificateType">Certificate Type</Label>
                     <Select
-                      value={formData.type}
+                      value={formData.certificateType}
                       onValueChange={(value) =>
-                        handleSelectChange(value, "type")
+                        handleSelectChange(value, "certificateType")
                       }
                     >
                       <SelectTrigger className="mt-1">
@@ -248,12 +248,12 @@ export default function CreateCertificatePage() {
                           variant="outline"
                           className={cn(
                             "mt-1 w-full justify-start text-left font-normal",
-                            !formData.endDate && "text-muted-foreground"
+                            !formData.expiryDate && "text-muted-foreground"
                           )}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
-                          {formData.endDate ? (
-                            formatDate(formData.endDate)
+                          {formData.expiryDate ? (
+                            formatDate(formData.expiryDate)
                           ) : (
                             <span>Select a date</span>
                           )}
@@ -262,9 +262,11 @@ export default function CreateCertificatePage() {
                       <PopoverContent className="w-auto p-0">
                         <CustomCalendar
                           mode="single"
-                          selected={formData.endDate}
-                          onSelect={(date) => handleDateChange(date, "endDate")}
-                          disabled={(date) => date < formData.startDate}
+                          selected={formData.expiryDate}
+                          onSelect={(date) =>
+                            handleDateChange(date, "expiryDate")
+                          }
+                          disabled={(date) => date < new Date()}
                         />
                       </PopoverContent>
                     </Popover>

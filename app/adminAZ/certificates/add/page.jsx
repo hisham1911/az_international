@@ -47,11 +47,11 @@ export default function AddCertificatePage() {
   const [isSaving, setIsSaving] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: "",
-    s_N: "",
-    method: "1",
-    type: "1",
-    endDate: "",
+    personName: "",
+    serialNumber: "",
+    serviceMethod: "1",
+    certificateType: "1",
+    expiryDate: "",
   });
 
   const handleInputChange = (e) => {
@@ -83,15 +83,15 @@ export default function AddCertificatePage() {
     try {
       // Validate required fields
       if (
-        !formData.name ||
-        !formData.s_N ||
-        !formData.type ||
-        !formData.endDate
+        !formData.personName ||
+        !formData.serialNumber ||
+        !formData.certificateType ||
+        !formData.expiryDate
       ) {
         toast({
           title: "Validation Error",
           description:
-            "Please fill in all required fields (Name, Serial Number, Type, and Expiry Date).",
+            "Please fill in all required fields (Person Name, Serial Number, Type, and Expiry Date).",
           variant: "destructive",
         });
         setIsSaving(false);
@@ -99,7 +99,7 @@ export default function AddCertificatePage() {
       }
 
       // Additional validation
-      if (formData.endDate && new Date(formData.endDate) < new Date()) {
+      if (formData.expiryDate && new Date(formData.expiryDate) < new Date()) {
         toast({
           title: "Date Error",
           description: "Expiry date cannot be before current date.",
@@ -111,11 +111,11 @@ export default function AddCertificatePage() {
 
       // Prepare data for submission
       const certificateData = {
-        name: formData.name,
-        s_N: formData.s_N,
-        method: parseInt(formData.method),
-        type: parseInt(formData.type),
-        endDate: formData.endDate.toISOString(),
+        personName: formData.personName,
+        serialNumber: formData.serialNumber,
+        serviceMethod: parseInt(formData.serviceMethod),
+        certificateType: parseInt(formData.certificateType),
+        expiryDate: formData.expiryDate.toISOString(),
       };
 
       const result = await createService(certificateData);
@@ -175,12 +175,12 @@ export default function AddCertificatePage() {
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="name">Certificate Name</Label>
+                    <Label htmlFor="personName">Person Name</Label>
                     <Input
-                      id="name"
-                      name="name"
-                      placeholder="Enter certificate name"
-                      value={formData.name}
+                      id="personName"
+                      name="personName"
+                      placeholder="Enter person name"
+                      value={formData.personName}
                       onChange={handleInputChange}
                       className="mt-1"
                       required
@@ -188,12 +188,12 @@ export default function AddCertificatePage() {
                   </div>
 
                   <div>
-                    <Label htmlFor="s_N">Serial Number</Label>
+                    <Label htmlFor="serialNumber">Serial Number</Label>
                     <Input
-                      id="s_N"
-                      name="s_N"
+                      id="serialNumber"
+                      name="serialNumber"
                       placeholder="Enter serial number"
-                      value={formData.s_N}
+                      value={formData.serialNumber}
                       onChange={handleInputChange}
                       className="mt-1"
                       required
@@ -201,15 +201,15 @@ export default function AddCertificatePage() {
                   </div>
 
                   <div>
-                    <Label htmlFor="method">Certificate Method</Label>
+                    <Label htmlFor="serviceMethod">Service Method</Label>
                     <Select
-                      value={formData.method}
+                      value={formData.serviceMethod}
                       onValueChange={(value) =>
-                        handleSelectChange(value, "method")
+                        handleSelectChange(value, "serviceMethod")
                       }
                     >
                       <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Select certificate method" />
+                        <SelectValue placeholder="Select service method" />
                       </SelectTrigger>
                       <SelectContent>
                         {ServiceMethodOptions.map((option) => (
@@ -227,11 +227,11 @@ export default function AddCertificatePage() {
 
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="type">Certificate Type</Label>
+                    <Label htmlFor="certificateType">Certificate Type</Label>
                     <Select
-                      value={formData.type}
+                      value={formData.certificateType}
                       onValueChange={(value) =>
-                        handleSelectChange(value, "type")
+                        handleSelectChange(value, "certificateType")
                       }
                     >
                       <SelectTrigger className="mt-1">
@@ -258,12 +258,12 @@ export default function AddCertificatePage() {
                           variant="outline"
                           className={cn(
                             "mt-1 w-full justify-start text-left font-normal",
-                            !formData.endDate && "text-muted-foreground"
+                            !formData.expiryDate && "text-muted-foreground"
                           )}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
-                          {formData.endDate ? (
-                            format(formData.endDate, "PPP", { locale: enUS })
+                          {formData.expiryDate ? (
+                            format(formData.expiryDate, "PPP", { locale: enUS })
                           ) : (
                             <span>Select a date</span>
                           )}
@@ -272,8 +272,10 @@ export default function AddCertificatePage() {
                       <PopoverContent className="w-auto p-0">
                         <Calendar
                           mode="single"
-                          selected={formData.endDate}
-                          onSelect={(date) => handleDateChange(date, "endDate")}
+                          selected={formData.expiryDate}
+                          onSelect={(date) =>
+                            handleDateChange(date, "expiryDate")
+                          }
                           disabled={(date) => date < new Date()}
                           initialFocus
                         />
