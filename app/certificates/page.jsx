@@ -96,26 +96,34 @@ export default function CertificatesPage() {
           const formattedCertificates = results.map((result) => {
             try {
               return {
-                id: `CERT-${result.srId || result.id || "Unknown"}`,
-                name: result.name || "N/A",
-                title: getServiceMethodLabel(result.method),
-                type: getCertificateTypeLabel(result.type),
-                serialNumber: result.s_N || "N/A",
-                expiryDate: result.endDate
-                  ? new Date(result.endDate).toLocaleDateString()
-                  : "N/A",
+                id: `CERT-${result.id || "Unknown"}`,
+                name: result.personName || result.name || "N/A",
+                title: getServiceMethodLabel(
+                  result.serviceMethod || result.method
+                ),
+                type: getCertificateTypeLabel(
+                  result.certificateType || result.type
+                ),
+                serialNumber: result.serialNumber || result.s_N || "N/A",
+                expiryDate:
+                  result.expiryDate || result.endDate
+                    ? new Date(
+                        result.expiryDate || result.endDate
+                      ).toLocaleDateString()
+                    : "N/A",
                 status:
-                  result.endDate && new Date(result.endDate) > new Date()
+                  (result.expiryDate || result.endDate) &&
+                  new Date(result.expiryDate || result.endDate) > new Date()
                     ? "active"
                     : "expired",
               };
             } catch (formatError) {
               return {
-                id: `CERT-${result.srId || result.id || "Unknown"}`,
-                name: result.name || "Unknown",
+                id: `CERT-${result.id || result.srId || "Unknown"}`,
+                name: result.personName || result.name || "Unknown",
                 title: "Certificate",
                 type: "Unknown Type",
-                serialNumber: result.s_N || "Unknown",
+                serialNumber: result.serialNumber || result.s_N || "Unknown",
                 expiryDate: "N/A",
                 status: "unknown",
               };
@@ -146,24 +154,7 @@ export default function CertificatesPage() {
     ]
   );
 
-  // دالة مساعدة للحصول على عنوان الشهادة حسب نوعها
-  const getMethodTitle = (method) => {
-    switch (parseInt(method)) {
-      case 1:
-        return "Magnetic Particle Testing";
-      case 2:
-        return "Liquid Penetrant Testing";
-      case 3:
-        return "Radiographic Testing";
-      case 4:
-        return "Ultrasonic Testing";
-      case 5:
-        return "Visual Testing";
-      default:
-        return `Certificate Type ${method}`;
-    }
-  };
-
+  // دالة للتنقل إلى تفاصيل الشهادة
   const viewCertificateDetails = (serialNumber) => {
     router.push(`/certificates/${serialNumber}`);
   };

@@ -1,18 +1,27 @@
 // Global type definitions for AZ International application
 
 export interface Certificate {
-  id: string;
-  srId?: string;
-  name: string;
+  id: number;
   serialNumber: string;
+  personName: string;
+  serviceMethod: number;
+  certificateType: number;
+  expiryDate: string;
+  country?: string;
+  state?: string;
+  streetAddress?: string;
+  createdAt: string;
+  updatedAt: string;
+  isExpired: boolean;
+
+  // Legacy fields for backward compatibility
+  srId?: string;
+  name?: string;
   s_N?: string;
-  certificateType: string;
-  method: string | number;
-  type: string | number;
-  issueDate?: string;
-  expiryDate?: string;
+  method?: string | number;
+  type?: string | number;
   endDate?: string;
-  status: "active" | "expired" | "unknown";
+  status?: "active" | "expired" | "unknown";
 }
 
 export interface FormattedCertificate {

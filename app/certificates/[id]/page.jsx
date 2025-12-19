@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { searchService } from "@/lib/api-services";
+import { getServiceMethodLabel, getCertificateTypeLabel } from "@/lib/enums";
 
 export default function CertificateVerificationPage() {
   const params = useParams();
@@ -41,18 +42,23 @@ export default function CertificateVerificationPage() {
           // Transform the API response to match our frontend model
           setCertificate({
             id: `CERT-${result.id}`,
-            name: result.name,
-            title: result.method,
-            serialNumber: result.s_N,
-            issueDate: result.startDate,
-            expiryDate: result.endDate,
+            name: result.personName || result.name,
+            title: getServiceMethodLabel(result.serviceMethod || result.method),
+            serialNumber: result.serialNumber || result.s_N,
+            issueDate: result.createdAt || result.startDate,
+            expiryDate: result.expiryDate || result.endDate,
             issuer: "AZ INTERNATIONAL",
-            category: "Quality Management",
+            category: "Non-Destructive Testing (NDT)",
             status:
-              new Date(result.endDate) > new Date() ? "active" : "expired",
-            description: `${result.method} certification issued in ${result.location.country}`,
-            additionalInfo: `Location: ${result.location.country}, ${result.location.state}, ${result.location.streetAddress}`,
-            verificationUrl: `${window.location.origin}/certificates/${result.s_N}`,
+              new Date(result.expiryDate || result.endDate) > new Date()
+                ? "active"
+                : "expired",
+            description: `${getServiceMethodLabel(result.serviceMethod || result.method)} certification issued by AZ International`,
+            additionalInfo:
+              result.country || result.state || result.streetAddress
+                ? `Location: ${[result.country, result.state, result.streetAddress].filter(Boolean).join(", ")}`
+                : "Location information not available",
+            verificationUrl: `${window.location.origin}/certificates/${result.serialNumber || result.s_N}`,
             logoUrl: "/images/az-logo.png",
           });
           setVerificationStatus("verified");
