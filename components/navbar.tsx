@@ -48,23 +48,23 @@ export default function Navbar() {
       submenu: [
         {
           title: "Quality Assurance & Controls",
-          href: "/quality-assurance/",
+          href: "/quality-assurance",
         },
         {
           title: "Field/Industrial Inspection",
-          href: "/field-industrial/",
+          href: "/field-industrial",
         },
         {
           title: "Specialized Services",
-          href: "/specialized-services/",
+          href: "/specialized-services",
         },
         {
           title: "Standard NDT Services",
-          href: "/standard-ndt/",
+          href: "/standard-ndt",
         },
         {
           title: "Capacity Building Training",
-          href: "/capacity-building/",
+          href: "/capacity-building",
         },
       ],
     },
@@ -104,14 +104,10 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", handleResize);
   }, [isMenuOpen]);
 
-  const handleServiceLinkClick = (e: React.MouseEvent, href: string) => {
-    if (currentPath === "/services") {
-      e.preventDefault();
-      window.location.hash = href;
-      window.dispatchEvent(new HashChangeEvent("hashchange"));
-      (document.activeElement as HTMLElement)?.blur();
-      window.scrollTo({ top: 0, behavior: "auto" });
-    }
+  // Close navigation menu after clicking a link
+  const handleServiceLinkClick = () => {
+    // Blur active element to close the navigation menu
+    (document.activeElement as HTMLElement)?.blur();
   };
 
   return (
@@ -250,9 +246,7 @@ export default function Navbar() {
                                 key={section.title}
                                 href={`/services${section.href}`}
                                 className="block rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-blue-50 hover:text-blue-600"
-                                onClick={(e) =>
-                                  handleServiceLinkClick(e, section.href)
-                                }
+                                onClick={handleServiceLinkClick}
                               >
                                 {section.title}
                               </Link>

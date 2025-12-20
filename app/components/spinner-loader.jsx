@@ -2,13 +2,22 @@
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 export default function SpinnerLoader() {
   const pathname = usePathname();
   const [showLoader, setShowLoader] = useState(false);
   const isFirstLoad = useRef(true);
   const previousPathname = useRef(pathname);
+  const timerRef = useRef(null);
+
+  // Clear any existing timer
+  const clearTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
 
   useEffect(() => {
     // Skip loader on initial page load - content should render immediately
@@ -20,16 +29,13 @@ export default function SpinnerLoader() {
 
     // Only show loader when navigating to a different page
     if (pathname !== previousPathname.current) {
-      setShowLoader(true);
       previousPathname.current = pathname;
 
-      const timer = setTimeout(() => {
-        setShowLoader(false);
-      }, 200); // Reduced from 300ms
-
-      return () => clearTimeout(timer);
+      // Clear any existing timer and hide loader when navigation completes
+      clearTimer();
+      setShowLoader(false);
     }
-  }, [pathname]);
+  }, [pathname, clearTimer]);
 
   useEffect(() => {
     // Track clicks on navigation links
@@ -53,7 +59,15 @@ export default function SpinnerLoader() {
           ) {
             return;
           }
+
+          // Clear any existing timer before starting a new one
+          clearTimer();
           setShowLoader(true);
+
+          // Auto-hide after max 3 seconds (safety timeout)
+          timerRef.current = setTimeout(() => {
+            setShowLoader(false);
+          }, 3000);
         }
       }
     };
@@ -62,8 +76,14 @@ export default function SpinnerLoader() {
 
     return () => {
       document.removeEventListener("click", handleLinkClick);
+      clearTimer();
     };
-  }, [pathname]);
+  }, [pathname, clearTimer]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => clearTimer();
+  }, [clearTimer]);
 
   if (!showLoader) return null;
 
