@@ -229,8 +229,8 @@ export default function CertificatesPage() {
 
         // Go through each name group
         Object.entries(prevCertificates).forEach(([name, certs]) => {
-          // Filter out the deleted certificate
-          const updatedCerts = certs.filter((cert) => cert.id !== id);
+          // Filter out the deleted certificate by traineeId
+          const updatedCerts = certs.filter((cert) => cert.traineeId !== id);
 
           // Only add back non-empty groups
           if (updatedCerts.length > 0) {
@@ -478,7 +478,7 @@ export default function CertificatesPage() {
                           <div className="flex justify-end gap-2">
                             <Button variant="outline" size="icon" asChild>
                               <Link
-                                href={`/adminAZ/certificates/edit/${cert.id}`}
+                                href={`/adminAZ/certificates/edit/${cert.traineeId}`}
                                 className="hover:bg-muted"
                               >
                                 <EditIcon className="h-4 w-4" />
@@ -487,7 +487,9 @@ export default function CertificatesPage() {
                             <Button
                               variant="destructive"
                               size="icon"
-                              onClick={() => handleDeleteCertificate(cert.id)}
+                              onClick={() =>
+                                handleDeleteCertificate(cert.traineeId)
+                              }
                               className="hover:bg-destructive/90"
                             >
                               <TrashIcon className="h-4 w-4" />
