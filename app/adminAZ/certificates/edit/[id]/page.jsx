@@ -33,12 +33,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { updateService, getServiceById } from "@/lib/api-services";
 import {
-  ServiceMethodOptions,
-  CertificateTypeOptions,
-  getServiceMethodCode,
-} from "@/lib/enums";
+  updateTrainee,
+  getTraineeById,
+  updateCertificate,
+} from "@/lib/api-services";
+import { ServiceMethodOptions, CertificateTypeOptions } from "@/lib/enums";
 import { cn } from "@/lib/utils";
 
 export default function EditCertificatePage({ params }) {
@@ -47,10 +47,11 @@ export default function EditCertificatePage({ params }) {
 
   const resolvedParams = React.use(params);
   const id = resolvedParams.id;
-  const certificateId = id.startsWith("CERT-") ? id.substring(5) : id;
+  const traineeId = parseInt(id);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [traineeData, setTraineeData] = useState(null);
   const [formData, setFormData] = useState({
     personName: "",
     serialNumber: "",
@@ -60,34 +61,29 @@ export default function EditCertificatePage({ params }) {
   });
 
   useEffect(() => {
-    const fetchCertificateData = async () => {
+    const fetchTraineeData = async () => {
       setIsLoading(true);
       try {
-        const certificate = await getServiceById(certificateId);
+        const trainee = await getTraineeById(traineeId);
+        setTraineeData(trainee);
+
+        // استخدام أول شهادة للعرض
+        const firstCert = trainee.certificates?.[0];
 
         setFormData({
-          personName: certificate.personName || certificate.name || "",
-          serialNumber: certificate.serialNumber || certificate.s_N || "",
-          serviceMethod: (
-            certificate.serviceMethod ||
-            certificate.method ||
-            1
-          ).toString(),
-          certificateType: (
-            certificate.certificateType ||
-            certificate.type ||
-            1
-          ).toString(),
-          expiryDate:
-            certificate.expiryDate || certificate.endDate
-              ? new Date(certificate.expiryDate || certificate.endDate)
-              : "",
+          personName: trainee.personName || "",
+          serialNumber: trainee.serialNumber || "",
+          serviceMethod: (firstCert?.serviceMethod || 1).toString(),
+          certificateType: (firstCert?.certificateType || 1).toString(),
+          expiryDate: firstCert?.expiryDate
+            ? new Date(firstCert.expiryDate)
+            : "",
         });
       } catch (error) {
         toast({
           title: "Error",
           description:
-            error.message || "Certificate not found or could not be loaded",
+            error.message || "Trainee not found or could not be loaded",
           variant: "destructive",
         });
         setTimeout(() => {
@@ -98,8 +94,8 @@ export default function EditCertificatePage({ params }) {
       }
     };
 
-    fetchCertificateData();
-  }, [certificateId, router, toast]);
+    fetchTraineeData();
+  }, [traineeId, router, toast]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -149,43 +145,24 @@ export default function EditCertificatePage({ params }) {
         return;
       }
 
-      if (formData.expiryDate && new Date(formData.expiryDate) < new Date()) {
-        toast({
-          title: "Date Error",
-          description: "Expiry date cannot be before current date",
-          variant: "destructive",
-        });
-        setIsSaving(false);
-        return;
-      }
-
-      // إضافة لاحقة الطريقة للرقم التسلسلي تلقائياً
-      const methodCode = getServiceMethodCode(formData.serviceMethod);
-      let finalSerialNumber = formData.serialNumber;
-
-      // إذا لم يكن الرقم التسلسلي يحتوي على اللاحقة، أضفها
-      if (
-        !finalSerialNumber.endsWith("-VT") &&
-        !finalSerialNumber.endsWith("-PT") &&
-        !finalSerialNumber.endsWith("-MT") &&
-        !finalSerialNumber.endsWith("-RT") &&
-        !finalSerialNumber.endsWith("-UT")
-      ) {
-        finalSerialNumber = `${formData.serialNumber}-${methodCode}`;
-      }
-
-      const updatedData = {
+      // تحديث بيانات المتدرب
+      await updateTrainee(traineeId, {
         personName: formData.personName,
-        serialNumber: finalSerialNumber,
-        serviceMethod: parseInt(formData.serviceMethod),
-        certificateType: parseInt(formData.certificateType),
-        expiryDate:
-          formData.expiryDate instanceof Date
-            ? formData.expiryDate.toISOString()
-            : new Date(formData.expiryDate).toISOString(),
-      };
+        serialNumber: formData.serialNumber,
+      });
 
-      await updateService(certificateId, updatedData);
+      // تحديث الشهادة إذا كانت موجودة
+      const firstCert = traineeData?.certificates?.[0];
+      if (firstCert) {
+        await updateCertificate(traineeId, firstCert.id, {
+          serviceMethod: parseInt(formData.serviceMethod),
+          certificateType: parseInt(formData.certificateType),
+          expiryDate:
+            formData.expiryDate instanceof Date
+              ? formData.expiryDate.toISOString()
+              : new Date(formData.expiryDate).toISOString(),
+        });
+      }
 
       toast({
         title: "Updated",
