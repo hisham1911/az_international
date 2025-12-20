@@ -356,7 +356,7 @@ export async function uploadExcelFile(file: File): Promise<any> {
     ? { Authorization: `Bearer ${token}` }
     : {};
 
-  const response = await fetch(`${API_BASE_URL}/Certificates/import`, {
+  const response = await fetch(`${API_BASE_URL}/Trainees/import`, {
     method: "POST",
     headers,
     body: formData,
