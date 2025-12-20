@@ -29,6 +29,11 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   generator: "v0.dev",
+  icons: {
+    icon: "/images/az-logo.png",
+    shortcut: "/images/az-logo.png",
+    apple: "/images/az-logo.png",
+  },
 };
 
 interface RootLayoutProps {
