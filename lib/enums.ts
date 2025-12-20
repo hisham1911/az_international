@@ -24,6 +24,25 @@ export const ServiceMethodLabels: Record<ServiceMethodType, string> = {
 };
 
 /**
+ * Service method codes (short codes for serial number suffix)
+ */
+export const ServiceMethodCodes: Record<ServiceMethodType, string> = {
+  [ServiceMethod.VisualTesting]: "VT",
+  [ServiceMethod.LiquidPenetrantTesting]: "PT",
+  [ServiceMethod.MagneticParticleTesting]: "MT",
+  [ServiceMethod.RadiographicTesting]: "RT",
+  [ServiceMethod.UltrasonicTesting]: "UT",
+};
+
+/**
+ * Get service method code by method id
+ */
+export function getServiceMethodCode(method: number | string): string {
+  const methodNum = typeof method === "string" ? parseInt(method, 10) : method;
+  return ServiceMethodCodes[methodNum as ServiceMethodType] || "XX";
+}
+
+/**
  * Service method options for dropdown
  */
 export const ServiceMethodOptions = [

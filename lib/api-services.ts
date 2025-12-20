@@ -1,20 +1,14 @@
 /**
- * خدمات API للشهادات
- * يتصل بـ CertificatesController الجديد
+ * خدمات API للمتدربين والشهادات
+ * الهيكل الجديد: Trainee + Certificates
  */
-
-import type { Certificate } from "@/types";
 
 import { getAuthToken } from "./auth-utils";
 
-// عنوان API الأساسي
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   "https://azbackendnew-production-817b.up.railway.app/api";
 
-/**
- * الحصول على headers للطلبات المصادق عليها
- */
 function getAuthHeaders(): HeadersInit {
   const token = getAuthToken();
   return {
@@ -24,363 +18,357 @@ function getAuthHeaders(): HeadersInit {
   };
 }
 
-/**
- * الحصول على جميع الشهادات مع pagination
- */
-export async function getAllCertificates(
+// ==================== Types ====================
+
+export interface TraineeCertificate {
+  id: number;
+  serviceMethod: number;
+  methodCode: string;
+  certificateType: number;
+  expiryDate: string;
+  isExpired: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Trainee {
+  id: number;
+  serialNumber: string;
+  personName: string;
+  country?: string;
+  state?: string;
+  streetAddress?: string;
+  createdAt: string;
+  updatedAt: string;
+  certificates: TraineeCertificate[];
+}
+
+export interface PagedResult<T> {
+  items: T[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+// ==================== Trainee API ====================
+
+export async function getAllTrainees(
   page: number = 1,
   pageSize: number = 20
-): Promise<any> {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/Certificates?page=${page}&pageSize=${pageSize}`,
-      {
-        method: "GET",
-        headers: getAuthHeaders(),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`خطأ في الحصول على الشهادات: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw error;
-  }
+): Promise<PagedResult<Trainee>> {
+  const response = await fetch(
+    `${API_BASE_URL}/Trainees?page=${page}&pageSize=${pageSize}`,
+    { method: "GET", headers: getAuthHeaders() }
+  );
+  if (!response.ok) throw new Error("Failed to get trainees");
+  return response.json();
 }
 
-/**
- * البحث عن الشهادات
- */
-export async function searchCertificates(searchParams: {
+export async function searchTrainees(params: {
   serialNumber?: string;
   personName?: string;
-  serviceMethod?: number;
-  expired?: boolean;
-  page?: number;
-  pageSize?: number;
-}): Promise<Certificate[]> {
-  try {
-    const queryParams = new URLSearchParams();
+}): Promise<Trainee[]> {
+  const queryParams = new URLSearchParams();
+  if (params.serialNumber)
+    queryParams.append("serialNumber", params.serialNumber);
+  if (params.personName) queryParams.append("personName", params.personName);
 
-    if (searchParams.serialNumber)
-      queryParams.append("serialNumber", searchParams.serialNumber);
-    if (searchParams.personName)
-      queryParams.append("personName", searchParams.personName);
-    if (searchParams.serviceMethod)
-      queryParams.append(
-        "serviceMethod",
-        searchParams.serviceMethod.toString()
-      );
-    if (searchParams.expired !== undefined)
-      queryParams.append("expired", searchParams.expired.toString());
-    if (searchParams.page)
-      queryParams.append("page", searchParams.page.toString());
-    if (searchParams.pageSize)
-      queryParams.append("pageSize", searchParams.pageSize.toString());
+  const response = await fetch(
+    `${API_BASE_URL}/Trainees/search?${queryParams}`,
+    { method: "GET", headers: getAuthHeaders() }
+  );
+  if (!response.ok) return [];
+  return response.json();
+}
 
-    const response = await fetch(
-      `${API_BASE_URL}/Certificates/search?${queryParams}`,
-      {
-        method: "GET",
-        headers: getAuthHeaders(),
-      }
-    );
+export async function getTraineeById(id: number): Promise<Trainee> {
+  const response = await fetch(`${API_BASE_URL}/Trainees/${id}`, {
+    method: "GET",
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) throw new Error("Trainee not found");
+  return response.json();
+}
 
-    if (response.status === 404) {
-      return [];
-    }
-
-    if (!response.ok) {
-      return [];
-    }
-
-    return await response.json();
-  } catch (error) {
-    return [];
+export async function createTrainee(data: {
+  serialNumber: string;
+  personName: string;
+  country?: string;
+  state?: string;
+  streetAddress?: string;
+  certificates: {
+    serviceMethod: number;
+    certificateType: number;
+    expiryDate: string;
+  }[];
+}): Promise<Trainee> {
+  const response = await fetch(`${API_BASE_URL}/Trainees`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    if (response.status === 409)
+      throw new Error("Serial number already exists");
+    throw new Error("Failed to create trainee");
   }
+  return response.json();
 }
 
-/**
- * البحث عن شهادة باستخدام الاسم
- */
-export async function searchServiceByName(
-  search: string
-): Promise<Certificate[]> {
-  return searchCertificates({ personName: search });
+export async function updateTrainee(
+  id: number,
+  data: {
+    serialNumber?: string;
+    personName?: string;
+    country?: string;
+    state?: string;
+    streetAddress?: string;
+  }
+): Promise<Trainee> {
+  const response = await fetch(`${API_BASE_URL}/Trainees/${id}`, {
+    method: "PUT",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error("Failed to update trainee");
+  return response.json();
 }
 
-/**
- * البحث عن شهادة باستخدام الرقم التسلسلي
- */
-export async function searchServiceBySerialNumber(
-  search: string
-): Promise<Certificate[]> {
-  return searchCertificates({ serialNumber: search });
+export async function deleteTrainee(id: number): Promise<boolean> {
+  const response = await fetch(`${API_BASE_URL}/Trainees/${id}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+  return response.ok;
 }
 
-/**
- * الحصول على شهادة بالـ ID
- */
-export async function getCertificateById(
-  id: string | number
-): Promise<Certificate> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/Certificates/${id}`, {
-      method: "GET",
+// ==================== Certificate API ====================
+
+export async function addCertificateToTrainee(
+  traineeId: number,
+  data: { serviceMethod: number; certificateType: number; expiryDate: string }
+): Promise<TraineeCertificate> {
+  const response = await fetch(
+    `${API_BASE_URL}/Trainees/${traineeId}/certificates`,
+    {
+      method: "POST",
       headers: getAuthHeaders(),
-    });
-
-    if (response.status === 404) {
-      throw new Error("Certificate not found. It may have been deleted.");
+      body: JSON.stringify(data),
     }
-
-    if (!response.ok) {
-      throw new Error("Failed to retrieve certificate. Please try again.");
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw error;
+  );
+  if (!response.ok) {
+    if (response.status === 409)
+      throw new Error("Certificate for this method already exists");
+    throw new Error("Failed to add certificate");
   }
+  return response.json();
 }
 
-/**
- * إنشاء شهادة جديدة
- */
-export async function createCertificate(data: {
+export async function updateCertificate(
+  traineeId: number,
+  certificateId: number,
+  data: {
+    serviceMethod?: number;
+    certificateType?: number;
+    expiryDate?: string;
+  }
+): Promise<TraineeCertificate> {
+  const response = await fetch(
+    `${API_BASE_URL}/Trainees/${traineeId}/certificates/${certificateId}`,
+    { method: "PUT", headers: getAuthHeaders(), body: JSON.stringify(data) }
+  );
+  if (!response.ok) throw new Error("Failed to update certificate");
+  return response.json();
+}
+
+export async function deleteCertificate(
+  traineeId: number,
+  certificateId: number
+): Promise<boolean> {
+  const response = await fetch(
+    `${API_BASE_URL}/Trainees/${traineeId}/certificates/${certificateId}`,
+    { method: "DELETE", headers: getAuthHeaders() }
+  );
+  return response.ok;
+}
+
+// ==================== Search (للتوافق مع صفحة البحث العامة) ====================
+
+export async function searchServiceByName(name: string): Promise<any[]> {
+  const trainees = await searchTrainees({ personName: name });
+  // تحويل إلى التنسيق المتوقع من صفحة البحث
+  return trainees.flatMap((t) =>
+    t.certificates.map((c) => ({
+      id: c.id,
+      traineeId: t.id,
+      serialNumber: t.serialNumber,
+      personName: t.personName,
+      serviceMethod: c.serviceMethod,
+      certificateType: c.certificateType,
+      expiryDate: c.expiryDate,
+      isExpired: c.isExpired,
+      methodCode: c.methodCode,
+    }))
+  );
+}
+
+export async function searchServiceBySerialNumber(
+  serial: string
+): Promise<any[]> {
+  const trainees = await searchTrainees({ serialNumber: serial });
+  return trainees.flatMap((t) =>
+    t.certificates.map((c) => ({
+      id: c.id,
+      traineeId: t.id,
+      serialNumber: t.serialNumber,
+      personName: t.personName,
+      serviceMethod: c.serviceMethod,
+      certificateType: c.certificateType,
+      expiryDate: c.expiryDate,
+      isExpired: c.isExpired,
+      methodCode: c.methodCode,
+    }))
+  );
+}
+
+// ==================== Legacy (للتوافق مع صفحات الإدارة) ====================
+
+export const getAllCertificates = getAllTrainees;
+export const getAllServices = getAllTrainees;
+
+export async function getServiceById(id: string | number): Promise<any> {
+  // id هنا هو traineeId
+  const trainee = await getTraineeById(Number(id));
+  return {
+    id: trainee.id,
+    serialNumber: trainee.serialNumber,
+    personName: trainee.personName,
+    country: trainee.country,
+    state: trainee.state,
+    streetAddress: trainee.streetAddress,
+    certificates: trainee.certificates,
+  };
+}
+
+export async function createService(data: {
   serialNumber: string;
   personName: string;
   serviceMethod: number;
   certificateType: number;
   expiryDate: string;
-  country?: string;
-  state?: string;
-  streetAddress?: string;
-}): Promise<Certificate> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/Certificates`, {
-      method: "POST",
-      headers: getAuthHeaders(),
-      body: JSON.stringify(data),
+}): Promise<any> {
+  // البحث عن المتدرب أولاً
+  const trainees = await searchTrainees({ serialNumber: data.serialNumber });
+
+  if (trainees.length > 0) {
+    // المتدرب موجود، أضف شهادة جديدة
+    const trainee = trainees[0];
+    await addCertificateToTrainee(trainee.id, {
+      serviceMethod: data.serviceMethod,
+      certificateType: data.certificateType,
+      expiryDate: data.expiryDate,
     });
-
-    if (!response.ok) {
-      if (response.status === 400) {
-        throw new Error(
-          "Invalid certificate data. Please check all fields and try again."
-        );
-      } else if (response.status === 401 || response.status === 403) {
-        throw new Error("You don't have permission to create certificates.");
-      } else if (response.status === 409) {
-        throw new Error(
-          "A certificate with this serial number already exists."
-        );
-      } else {
-        throw new Error("Failed to create certificate. Please try again.");
-      }
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw error;
+    return getTraineeById(trainee.id);
+  } else {
+    // إنشاء متدرب جديد مع الشهادة
+    return createTrainee({
+      serialNumber: data.serialNumber,
+      personName: data.personName,
+      certificates: [
+        {
+          serviceMethod: data.serviceMethod,
+          certificateType: data.certificateType,
+          expiryDate: data.expiryDate,
+        },
+      ],
+    });
   }
 }
 
-/**
- * تحديث شهادة موجودة
- */
-export async function updateCertificate(
+export async function updateService(
   id: string | number,
   data: {
-    serialNumber?: string;
     personName?: string;
     serviceMethod?: number;
     certificateType?: number;
     expiryDate?: string;
-    country?: string;
-    state?: string;
-    streetAddress?: string;
   }
-): Promise<Certificate> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/Certificates/${id}`, {
-      method: "PUT",
-      headers: getAuthHeaders(),
-      body: JSON.stringify(data),
-    });
+): Promise<any> {
+  const traineeId = Number(id);
 
-    if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error("Certificate not found. It may have been deleted.");
-      } else if (response.status === 409) {
-        throw new Error(
-          "A certificate with this serial number already exists."
-        );
-      } else {
-        throw new Error("Failed to update certificate. Please try again.");
-      }
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw error;
+  // تحديث بيانات المتدرب
+  if (data.personName) {
+    await updateTrainee(traineeId, { personName: data.personName });
   }
+
+  return getTraineeById(traineeId);
 }
 
-/**
- * حذف شهادة
- */
-export async function deleteCertificate(id: string | number): Promise<boolean> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/Certificates/${id}`, {
-      method: "DELETE",
-      headers: getAuthHeaders(),
-    });
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error(
-          "Certificate not found. It may have already been deleted."
-        );
-      } else {
-        throw new Error("Failed to delete certificate. Please try again.");
-      }
-    }
-
-    return true;
-  } catch (error) {
-    throw error;
-  }
+export async function deleteService(id: string | number): Promise<boolean> {
+  return deleteTrainee(Number(id));
 }
 
-/**
- * رفع ملف Excel للشهادات
- */
-export async function uploadExcelFile(file: File): Promise<any> {
-  try {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const token = getAuthToken();
-    const headers: HeadersInit = token
-      ? { Authorization: `Bearer ${token}` }
-      : {};
-
-    const response = await fetch(`${API_BASE_URL}/Certificates/import`, {
-      method: "POST",
-      headers,
-      body: formData,
-    });
-
-    if (!response.ok) {
-      if (response.status === 400) {
-        throw new Error(
-          "Invalid file. Please check the file format and try again."
-        );
-      } else if (response.status === 401 || response.status === 403) {
-        throw new Error(
-          "You don't have permission to upload certificate files."
-        );
-      } else {
-        throw new Error("Failed to upload file. Please try again.");
-      }
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw error;
-  }
+export async function deleteAllData(): Promise<any> {
+  const response = await fetch(`${API_BASE_URL}/Trainees/delete-all`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) throw new Error("Failed to delete all data");
+  return response.json();
 }
 
-// Legacy functions for backward compatibility
-export const getAllServices = getAllCertificates;
-export const createService = createCertificate;
-export const updateService = updateCertificate;
-export const deleteService = deleteCertificate;
-export const getServiceById = getCertificateById;
-export const searchService = async (
-  search: string
-): Promise<Certificate | null> => {
-  const results = await searchServiceBySerialNumber(search);
-  return results.length > 0 ? results[0] : null;
-};
-
-/**
- * تنظيف البيانات القديمة
- */
-export async function cleanupOldFormatData(): Promise<any> {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/Certificates/cleanup-old-format`,
-      {
-        method: "POST",
-        headers: getAuthHeaders(),
-      }
-    );
-
-    if (!response.ok) {
-      if (response.status === 401 || response.status === 403) {
-        throw new Error(
-          "You don't have permission to perform cleanup operations."
-        );
-      } else {
-        throw new Error("Failed to cleanup old data. Please try again.");
-      }
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw error;
-  }
-}
-
-/**
- * الحصول على إحصائيات الشهادات
- */
 export async function getCertificateStats(): Promise<any> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/Certificates/stats`, {
-      method: "GET",
-      headers: getAuthHeaders(),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to get certificate statistics.");
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw error;
-  }
+  const response = await fetch(`${API_BASE_URL}/Trainees/stats`, {
+    method: "GET",
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) throw new Error("Failed to get stats");
+  return response.json();
 }
 
-/**
- * إرسال بريد إلكتروني
- */
 export async function sendEmail(emailData: {
   userName: string;
   userEmail: string;
   subject: string;
   message: string;
 }): Promise<unknown> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/Email/SendEmail`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(emailData),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to send email");
-    }
-
-    const text = await response.text();
-    return text ? JSON.parse(text) : { success: true };
-  } catch (error) {
-    throw error;
-  }
+  const response = await fetch(`${API_BASE_URL}/Email/SendEmail`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(emailData),
+  });
+  if (!response.ok) throw new Error("Failed to send email");
+  const text = await response.text();
+  return text ? JSON.parse(text) : { success: true };
 }
+
+// ==================== Missing exports ====================
+
+export async function uploadExcelFile(file: File): Promise<any> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const token = getAuthToken();
+  const headers: HeadersInit = token
+    ? { Authorization: `Bearer ${token}` }
+    : {};
+
+  const response = await fetch(`${API_BASE_URL}/Certificates/import`, {
+    method: "POST",
+    headers,
+    body: formData,
+  });
+
+  if (!response.ok) throw new Error("Failed to upload file");
+  return response.json();
+}
+
+export async function searchService(serial: string): Promise<any | null> {
+  const results = await searchServiceBySerialNumber(serial);
+  return results.length > 0 ? results[0] : null;
+}
+
+export const getCertificateById = getServiceById;

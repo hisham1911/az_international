@@ -31,7 +31,11 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { createService } from "@/lib/api-services";
-import { ServiceMethodOptions, CertificateTypeOptions } from "@/lib/enums";
+import {
+  ServiceMethodOptions,
+  CertificateTypeOptions,
+  getServiceMethodCode,
+} from "@/lib/enums";
 import { cn } from "@/lib/utils";
 import { formatDate, addYears } from "@/utils/date-utils";
 
@@ -102,9 +106,24 @@ export default function CreateCertificatePage() {
     setIsSubmitting(true);
 
     try {
+      // إضافة لاحقة الطريقة للرقم التسلسلي تلقائياً
+      const methodCode = getServiceMethodCode(formData.serviceMethod);
+      let finalSerialNumber = formData.serialNumber;
+
+      // إذا لم يكن الرقم التسلسلي يحتوي على اللاحقة، أضفها
+      if (
+        !finalSerialNumber.endsWith("-VT") &&
+        !finalSerialNumber.endsWith("-PT") &&
+        !finalSerialNumber.endsWith("-MT") &&
+        !finalSerialNumber.endsWith("-RT") &&
+        !finalSerialNumber.endsWith("-UT")
+      ) {
+        finalSerialNumber = `${formData.serialNumber}-${methodCode}`;
+      }
+
       const serviceData = {
         personName: formData.personName,
-        serialNumber: formData.serialNumber,
+        serialNumber: finalSerialNumber,
         serviceMethod: parseInt(formData.serviceMethod),
         certificateType: parseInt(formData.certificateType),
         expiryDate: formData.expiryDate.toISOString(),
@@ -114,7 +133,7 @@ export default function CreateCertificatePage() {
 
       toast({
         title: "Certificate Created",
-        description: "Certificate has been successfully created.",
+        description: `Certificate has been successfully created with serial number: ${finalSerialNumber}`,
       });
 
       router.push("/adminAZ/certificates");

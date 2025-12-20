@@ -34,7 +34,11 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { updateService, getServiceById } from "@/lib/api-services";
-import { ServiceMethodOptions, CertificateTypeOptions } from "@/lib/enums";
+import {
+  ServiceMethodOptions,
+  CertificateTypeOptions,
+  getServiceMethodCode,
+} from "@/lib/enums";
 import { cn } from "@/lib/utils";
 
 export default function EditCertificatePage({ params }) {
@@ -155,9 +159,24 @@ export default function EditCertificatePage({ params }) {
         return;
       }
 
+      // إضافة لاحقة الطريقة للرقم التسلسلي تلقائياً
+      const methodCode = getServiceMethodCode(formData.serviceMethod);
+      let finalSerialNumber = formData.serialNumber;
+
+      // إذا لم يكن الرقم التسلسلي يحتوي على اللاحقة، أضفها
+      if (
+        !finalSerialNumber.endsWith("-VT") &&
+        !finalSerialNumber.endsWith("-PT") &&
+        !finalSerialNumber.endsWith("-MT") &&
+        !finalSerialNumber.endsWith("-RT") &&
+        !finalSerialNumber.endsWith("-UT")
+      ) {
+        finalSerialNumber = `${formData.serialNumber}-${methodCode}`;
+      }
+
       const updatedData = {
         personName: formData.personName,
-        serialNumber: formData.serialNumber,
+        serialNumber: finalSerialNumber,
         serviceMethod: parseInt(formData.serviceMethod),
         certificateType: parseInt(formData.certificateType),
         expiryDate:
