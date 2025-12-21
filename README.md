@@ -1,15 +1,15 @@
-# AZ International - Certificate Verification System
+# 🎓 AZ International - Certificate Verification System (Frontend)
 
 <div align="center">
 
-![Next.js](https://img.shields.io/badge/Next.js-15.5-black?style=for-the-badge&logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)
-![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://vercel.com/)
 
-**A modern certificate verification and management system for NDT (Non-Destructive Testing) certifications.**
+**Modern certificate verification and management system for NDT certifications**
 
-[Live Demo](#) • [API Documentation](../az_backend_new/README.md) • [Deployment Guide](./DEPLOYMENT_GUIDE.md)
+[🌐 Live Demo](https://azinternational.vercel.app) • [📚 API Docs](https://azbackendnew-production-817b.up.railway.app/swagger)
 
 </div>
 
@@ -17,13 +17,67 @@
 
 ## ✨ Features
 
-- 🔍 **Certificate Search** - Search by name or serial number
-- ✅ **Certificate Verification** - QR code verification for authenticity
-- 📊 **Admin Dashboard** - Full CRUD operations for certificates
-- 📤 **Excel Import** - Bulk import certificates from Excel files
-- 🎨 **Modern UI** - Built with Radix UI and Tailwind CSS
-- 📱 **Responsive** - Works on all devices
-- 🌐 **Bilingual** - English and Arabic support
+| Feature                   | Description                             |
+| ------------------------- | --------------------------------------- |
+| 🔍 **Certificate Search** | Search by trainee name or serial number |
+| ✅ **Verification**       | Verify certificate authenticity         |
+| 📊 **Admin Dashboard**    | Full CRUD for trainees & certificates   |
+| 📤 **Excel Import**       | Bulk import from Excel files            |
+| 🎨 **Modern UI**          | Built with Radix UI & Tailwind CSS      |
+| 📱 **Responsive**         | Mobile-first design                     |
+| 🌐 **Bilingual**          | English & Arabic support                |
+
+---
+
+## 🖼️ Screenshots
+
+### Home Page
+
+Modern landing page with certificate search functionality.
+
+### Admin Dashboard
+
+Comprehensive management interface for certificates.
+
+### Certificate Search
+
+Quick search with real-time results.
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology          | Purpose                         |
+| ------------------- | ------------------------------- |
+| **Next.js 15**      | React framework with App Router |
+| **TypeScript**      | Type safety                     |
+| **Tailwind CSS**    | Utility-first styling           |
+| **Radix UI**        | Accessible components           |
+| **React Hook Form** | Form handling                   |
+| **Zod**             | Schema validation               |
+
+---
+
+## 📁 Project Structure
+
+```
+az_international/
+├── app/                      # Next.js App Router
+│   ├── adminAZ/             # Admin dashboard
+│   │   ├── certificates/    # Certificate management
+│   │   │   ├── create/     # Create certificate
+│   │   │   └── edit/       # Edit certificate
+│   │   └── layout.tsx      # Admin layout
+│   ├── certificates/        # Public certificate pages
+│   └── page.tsx            # Home page
+├── components/              # Reusable components
+│   ├── ui/                 # UI components (shadcn/ui)
+│   └── animations/         # Animation components
+├── lib/                     # Utilities
+│   ├── api-services.ts     # API client
+│   └── enums.ts            # Constants
+└── public/                  # Static assets
+```
 
 ---
 
@@ -37,108 +91,71 @@
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/az-international.git
-
-# Navigate to frontend directory
-cd az-international
+# Clone repository
+git clone https://github.com/hisham1911/az_international.git
+cd az_international
 
 # Install dependencies
 npm install
 
-# Copy environment file
+# Create environment file
 cp .env.example .env.local
 
 # Start development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🔧 Environment Variables
+## ⚙️ Environment Variables
 
-| Variable              | Description     | Default                                                   |
-| --------------------- | --------------- | --------------------------------------------------------- |
-| `NEXT_PUBLIC_API_URL` | Backend API URL | `https://azbackendnew-production-817b.up.railway.app/api` |
-
----
-
-## 📁 Project Structure
-
-```
-az_international/
-├── app/                    # Next.js App Router
-│   ├── adminAZ/           # Admin dashboard pages
-│   │   └── certificates/  # Certificate management
-│   ├── certificates/      # Public certificate pages
-│   └── page.tsx           # Home page
-├── components/            # Reusable components
-│   ├── ui/               # UI components (shadcn/ui)
-│   └── animations/       # Animation components
-├── lib/                   # Utilities and services
-│   ├── api-services.ts   # API client functions
-│   └── enums.ts          # Enums and constants
-├── types/                 # TypeScript types
-└── public/               # Static assets
+```env
+NEXT_PUBLIC_API_URL=https://azbackendnew-production-817b.up.railway.app/api
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## 📦 Scripts
 
-| Technology          | Purpose                         |
-| ------------------- | ------------------------------- |
-| **Next.js 15**      | React framework with App Router |
-| **TypeScript**      | Type safety                     |
-| **Tailwind CSS**    | Styling                         |
-| **Radix UI**        | Accessible components           |
-| **React Hook Form** | Form handling                   |
-| **Zod**             | Schema validation               |
-
----
-
-## 📦 Available Scripts
-
-```bash
-npm run dev       # Start development server
-npm run build     # Build for production
-npm run start     # Start production server
-npm run lint      # Run ESLint
-npm run lint:fix  # Fix ESLint errors
-npm run format    # Format with Prettier
-npm run type-check # TypeScript check
-```
+| Script           | Description              |
+| ---------------- | ------------------------ |
+| `npm run dev`    | Start development server |
+| `npm run build`  | Build for production     |
+| `npm run start`  | Start production server  |
+| `npm run lint`   | Run ESLint               |
+| `npm run format` | Format with Prettier     |
 
 ---
 
 ## 🚀 Deployment
 
-### Deploy to Vercel (Recommended)
+### Vercel (Recommended)
 
-1. Push code to GitHub
-2. Import project in [Vercel](https://vercel.com)
+1. Push to GitHub
+2. Import in [Vercel](https://vercel.com)
 3. Add environment variable:
-   - `NEXT_PUBLIC_API_URL` = `https://azbackendnew-production-817b.up.railway.app/api`
+   ```
+   NEXT_PUBLIC_API_URL=https://azbackendnew-production-817b.up.railway.app/api
+   ```
 4. Deploy!
 
-See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for detailed instructions.
-
-### Deploy with Vercel CLI
+### Vercel CLI
 
 ```bash
-npm install -g vercel
-vercel login
+npm i -g vercel
 vercel --prod
 ```
 
 ---
 
-## 🔗 Related
+## 🔗 Related Projects
 
-- **Backend API**: [az_backend_new](../az_backend_new/README.md)
-- **API URL**: `https://azbackendnew-production-817b.up.railway.app/api`
+| Project         | Description      | URL                                                            |
+| --------------- | ---------------- | -------------------------------------------------------------- |
+| **Backend API** | ASP.NET Core API | [GitHub](https://github.com/hisham1911/AZ_backend_new)         |
+| **Live API**    | Production API   | [Railway](https://azbackendnew-production-817b.up.railway.app) |
 
 ---
 
@@ -150,6 +167,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 <div align="center">
 
-**Built with ❤️ by AZ International Team**
+**Built with ❤️ for AZ International**
+
+[⬆ Back to Top](#-az-international---certificate-verification-system-frontend)
 
 </div>
