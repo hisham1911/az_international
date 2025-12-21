@@ -165,26 +165,31 @@ export default function CertificatesPage() {
       setError(null);
 
       // Upload the file
-      await uploadExcelFile(file);
+      const result = await uploadExcelFile(file);
 
       // Refresh search results if there's an active search
       if (hasSearched && searchQuery) {
         searchCertificates(searchQuery, searchType);
       }
 
-      // Method 1: Show success message in UI
+      // Show detailed result
+      const successMessage =
+        result.importedTrainees > 0
+          ? `تم استيراد ${result.importedTrainees} متدرب و ${result.importedCertificates} شهادة بنجاح`
+          : "لم يتم استيراد أي بيانات. تحقق من تنسيق الملف.";
+
       setError({
-        type: "success",
+        type: result.importedTrainees > 0 ? "success" : "warning",
         message:
-          "Excel file uploaded successfully. Refresh the page to see changes.",
+          successMessage +
+          (result.totalErrors > 0 ? ` (${result.totalErrors} أخطاء)` : ""),
       });
 
       // Method 2: Using toast notification
       setTimeout(() => {
         toast({
-          title: "✅ File Uploaded Successfully",
-          description:
-            "The Excel file has been uploaded and certificates added to the system.",
+          title: result.importedTrainees > 0 ? "✅ تم الرفع بنجاح" : "⚠️ تحذير",
+          description: successMessage,
           duration: 5000,
         });
       }, 300);
