@@ -14,10 +14,35 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          cd /var/www/frontend
+          # 1. Go to the project directory (where .git exists)
+          cd /home/projects/az-international
+
+          # 2. Pull latest changes
           git pull origin main
+
+          # 3. Go to frontend directory and build
+          cd az_international
           npm install
           npm run build
-          systemctl restart az-frontend
+
+          # 4. Copy build to serving directory (if separated) OR just restart if serving from here
+          # Assuming we are serving from /var/www/frontend, we copy the build
+          # mkdir -p /var/www/frontend
+          # cp -r .next/static /var/www/frontend/.next/
+          # cp -r public /var/www/frontend/
+          
+          # OR simpler: if you are serving directly from this folder, just restart
+          # For now, let's assume we build IN PLACE or copy everything
+          
+          # Let's try the safest approach based on the guide:
+          # Re-copy everything to /var/www/frontend
+          rsync -av --delete ./ /var/www/frontend/ --exclude .git --exclude node_modules
+          
+          # Navigate to var/www to install deps and finalize
+          cd /var/www/frontend
+          npm install --production
+          
+          # 5. Restart the CORRECT service name (frontend, not az-frontend)
+          systemctl restart frontend
+          
           echo "✅ Frontend Deployed Successfully!"
