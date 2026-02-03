@@ -209,7 +209,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-medium">Working Hours</h3>
                     <p className="text-gray-600">
-                      Sunday - Thursday: 9:00 AM - 5:00 PM
+                      Saturday - Thursday: 9:00 AM - 5:00 PM
                     </p>
                   </div>
                 </div>
