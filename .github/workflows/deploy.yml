@@ -20,8 +20,7 @@ jobs:
           # 2. Pull latest changes
           git pull origin main
 
-          # 3. Go to frontend directory and build
-          cd az_international
+          # 3. Build in the current directory (project root)
           npm install
           npm run build
 
