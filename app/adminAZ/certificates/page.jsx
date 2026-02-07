@@ -1,6 +1,14 @@
 "use client";
 
-import { Search, Plus, Loader2, FileSpreadsheet } from "lucide-react";
+import {
+  Search,
+  Plus,
+  Loader2,
+  FileSpreadsheet,
+  Download,
+  FileText,
+  AlertCircle,
+} from "lucide-react";
 import { Edit as EditIcon, Trash2 as TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,6 +33,8 @@ import {
   searchServiceBySerialNumber,
   deleteService,
   uploadExcelFile,
+  exportCertificatesToExcel,
+  deleteAllData,
 } from "@/lib/api-services";
 import { getServiceMethodLabel, getCertificateTypeLabel } from "@/lib/enums";
 
@@ -44,6 +54,8 @@ export default function CertificatesPage() {
   const [error, setError] = useState(null); // API error if any
   const [hasSearched, setHasSearched] = useState(false); // Track if user has searched
   const [isUploading, setIsUploading] = useState(false); // Track file upload state
+  const [isExporting, setIsExporting] = useState(false); // Track export state
+  const [isDeletingAll, setIsDeletingAll] = useState(false); // Track delete all state
   const fileInputRef = useRef(null); // Reference to hidden file input
 
   /**
@@ -179,10 +191,15 @@ export default function CertificatesPage() {
           : "لم يتم استيراد أي بيانات. تحقق من تنسيق الملف.";
 
       setError({
-        type: result.importedTrainees > 0 ? "success" : "warning",
-        message:
-          successMessage +
-          (result.totalErrors > 0 ? ` (${result.totalErrors} أخطاء)` : ""),
+        type:
+          result.importedTrainees > 0 || result.updatedTrainees > 0
+            ? "success"
+            : "warning",
+        message: successMessage,
+        details: result.errors || [],
+        totalErrors: result.totalErrors || 0,
+        analysis: result.analysis || null,
+        detailedSummary: result.detailedSummary || [],
       });
 
       // Method 2: Using toast notification
@@ -210,6 +227,74 @@ export default function CertificatesPage() {
       setError(error.message);
     } finally {
       setIsUploading(false);
+    }
+  };
+
+  /**
+   * Handle click on the Export button
+   */
+  const handleExportClick = async () => {
+    try {
+      setIsExporting(true);
+      await exportCertificatesToExcel();
+
+      toast({
+        title: "Export Successful",
+        description: "The Excel file has been downloaded successfully.",
+      });
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: error.message || "Failed to export data.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  /**
+   * Handle Delete All Data
+   */
+  const handleDeleteAllData = async () => {
+    if (
+      !window.confirm(
+        "تحذير: هل أنت متأكد تماماً أنك تريد حذف جميع البيانات؟ هذا الإجراء لا يمكن التراجع عنه!"
+      )
+    ) {
+      return;
+    }
+
+    // تأكيد ثاني
+    if (
+      !window.confirm(
+        "تأكيد أخير: سيتم مسح بيانات جميع المتدربين والشهادات من قاعدة البيانات. هل تريد الاستمرار؟"
+      )
+    ) {
+      return;
+    }
+
+    try {
+      setIsDeletingAll(true);
+      await deleteAllData();
+
+      setCertificates({});
+      toast({
+        title: "تم الحذف",
+        description: "تم حذف جميع البيانات بنجاح.",
+        variant: "default",
+      });
+      // تحديث الصفحة لإزالة أي بقايا
+      router.refresh();
+      window.location.reload();
+    } catch (error) {
+      toast({
+        title: "خطأ",
+        description: error.message || "فشلت عملية الحذف.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeletingAll(false);
     }
   };
 
@@ -295,6 +380,45 @@ export default function CertificatesPage() {
               className="hidden"
             />
 
+            {/* Export Excel button */}
+            <Button
+              variant="outline"
+              onClick={handleExportClick}
+              disabled={isExporting}
+            >
+              {isExporting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Exporting...
+                </>
+              ) : (
+                <>
+                  <Download className="mr-2 h-4 w-4" />
+                  Export Excel
+                </>
+              )}
+            </Button>
+
+            {/* Delete All button */}
+            <Button
+              variant="destructive"
+              onClick={handleDeleteAllData}
+              disabled={isDeletingAll}
+              className="ml-2"
+            >
+              {isDeletingAll ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                <>
+                  <TrashIcon className="mr-2 h-4 w-4" />
+                  Empty DB
+                </>
+              )}
+            </Button>
+
             {/* Upload Excel button */}
             <Button
               variant="outline"
@@ -322,15 +446,127 @@ export default function CertificatesPage() {
         </div>
       </FadeIn>
 
-      {/* Display API error or success message if any */}
       {error && (
         <FadeIn>
-          <Alert variant={error.type === "success" ? "default" : "destructive"}>
-            <AlertTitle>
-              {error.type === "success" ? "Success" : "Error"}
+          <Alert
+            variant={error.type === "success" ? "default" : "destructive"}
+            className="mb-6"
+          >
+            <AlertTitle className="flex items-center justify-between">
+              <span>
+                {error.type === "success" ? "تمت العملية" : "تنبيه / خطأ"}
+              </span>
+              {error.totalErrors > 0 && (
+                <Badge variant="outline" className="ml-2">
+                  {error.totalErrors} خطأ
+                </Badge>
+              )}
             </AlertTitle>
-            <AlertDescription>
-              {typeof error === "string" ? error : error.message}
+            <AlertDescription className="mt-2">
+              <div className="font-medium">
+                {typeof error === "string" ? error : error.message}
+              </div>
+
+              {error.analysis && (
+                <div className="mt-3 grid grid-cols-2 gap-4 rounded-md bg-black/5 p-3 text-sm md:grid-cols-4">
+                  <div>
+                    <span className="block text-gray-500">إجمالي الصفوف:</span>
+                    <span className="font-bold">
+                      {error.analysis.totalRowsInFile}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block text-gray-500">
+                      صفوف بها بيانات:
+                    </span>
+                    <span className="font-bold text-blue-600">
+                      {error.analysis.rowsWithData}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block text-gray-500">متدربين فريدين:</span>
+                    <span className="font-bold text-green-600">
+                      {error.analysis.uniqueTraineesInFile}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block text-gray-500">صفوف مهملة:</span>
+                    <span className="font-bold text-gray-400">
+                      {error.analysis.emptyRows}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {error.detailedSummary && error.detailedSummary.length > 0 && (
+                <div className="mt-4">
+                  <div className="mb-2 flex items-center gap-2 text-sm font-bold">
+                    <FileText className="h-4 w-4" />
+                    ملخص العمليات (بالترتيب حسب ظهورها في الملف):
+                  </div>
+                  <div className="max-h-60 overflow-y-auto rounded-md border border-gray-200 bg-white/80 p-0 shadow-inner">
+                    <table className="w-full border-collapse text-left text-xs">
+                      <thead className="sticky top-0 border-b bg-gray-100">
+                        <tr>
+                          <th className="border-r p-2 text-right">الاسم</th>
+                          <th className="w-20 border-r p-2 text-center">
+                            الحالة
+                          </th>
+                          <th className="w-24 p-2 text-center">الصفوف</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {error.detailedSummary.map((item, idx) => (
+                          <tr
+                            key={idx}
+                            className="border-b transition-colors hover:bg-gray-50"
+                          >
+                            <td className="direction-rtl border-r p-2 text-right font-medium">
+                              {item.name}{" "}
+                              <span className="text-[10px] text-gray-400">
+                                ({item.serialNumber})
+                              </span>
+                            </td>
+                            <td className="border-r p-2 text-center">
+                              <span
+                                className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                                  item.status === "New"
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-blue-100 text-blue-700"
+                                }`}
+                              >
+                                {item.status === "New" ? "جديد" : "تحديث"}
+                              </span>
+                            </td>
+                            <td className="p-2 text-center text-gray-600">
+                              {item.rows.join(", ")}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {error.details && error.details.length > 0 && (
+                <div className="mt-4">
+                  <div className="mb-2 flex items-center gap-2 text-sm font-bold text-red-600">
+                    <AlertCircle className="h-4 w-4" />
+                    تحذيرات وأخطاء (أول 50):
+                  </div>
+                  <div className="max-h-40 overflow-y-auto rounded-md border border-red-100 bg-red-50/30 p-2 text-xs">
+                    {error.details.map((err, idx) => (
+                      <div
+                        key={idx}
+                        className="mb-1 border-b border-red-100/30 pb-1 text-red-700 last:border-0"
+                      >
+                        • {err}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </AlertDescription>
           </Alert>
         </FadeIn>

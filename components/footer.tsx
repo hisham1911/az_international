@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
+import { APP_CONFIG } from "@/lib/constants";
+
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-b from-gray-900 via-blue-950 to-blue-900 text-white shadow-lg">
@@ -68,10 +70,10 @@ export default function Footer() {
                   <Phone className="h-3 w-3 flex-shrink-0 text-blue-300" />
                 </div>
                 <a
-                  href="tel:+20222879691"
+                  href={`tel:+${APP_CONFIG.mobileRaw}`}
                   className="text-xs text-gray-300/90 transition-colors duration-300 group-hover:text-blue-200"
                 >
-                  (02) 22-8-79-691
+                  {APP_CONFIG.mobile}
                 </a>
               </li>
               <li className="group flex items-center">

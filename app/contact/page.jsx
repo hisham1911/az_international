@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { OptimizedAnimation } from "@/components/ui/optimized-animation";
 import { Textarea } from "@/components/ui/textarea";
 import { sendEmail } from "@/lib/api-services";
+import { APP_CONFIG } from "@/lib/constants";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -184,8 +185,25 @@ export default function ContactPage() {
                 <div className="flex items-start space-x-4">
                   <Phone className="mt-1 h-6 w-6 text-blue-600" />
                   <div>
-                    <h3 className="font-medium">Phone</h3>
-                    <p className="text-gray-600">(02) 22-8-79-691</p>
+                    <h3 className="font-medium">Mobile Number</h3>
+                    <a
+                      href={`tel:+${APP_CONFIG.mobileRaw}`}
+                      className="text-gray-600 transition-colors hover:text-blue-600"
+                    >
+                      {APP_CONFIG.mobile}
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <Phone className="mt-1 h-6 w-6 text-gray-400" />
+                  <div>
+                    <h3 className="font-medium">Landline</h3>
+                    <a
+                      href="tel:+20222879691"
+                      className="text-gray-600 transition-colors hover:text-blue-600"
+                    >
+                      {APP_CONFIG.phone}
+                    </a>
                   </div>
                 </div>{" "}
                 <div className="flex items-start space-x-4">

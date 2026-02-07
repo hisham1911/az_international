@@ -21,6 +21,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
 } from "@/components/ui/navigation-menu";
+import { APP_CONFIG } from "@/lib/constants";
 
 interface SubmenuItem {
   title: string;
@@ -123,13 +124,13 @@ export default function Navbar() {
             {/* Contact info - hidden on small screens, flex on medium and up */}
             <div className="hidden items-center space-x-4 text-xs sm:flex">
               <a
-                href="tel:+20222879691"
+                href={`tel:+${APP_CONFIG.mobileRaw}`}
                 className="group flex items-center transition-all duration-300 hover:text-blue-200"
               >
                 <div className="mr-2 rounded-full bg-blue-700/30 p-1 transition-all duration-300 group-hover:bg-blue-600/50">
                   <Phone className="h-3 w-3" />
                 </div>
-                <span className="whitespace-nowrap">(02) 22-8-79-691</span>
+                <span className="whitespace-nowrap">{APP_CONFIG.mobile}</span>
               </a>
               <a
                 href="mailto:info@azinternational-eg.com"

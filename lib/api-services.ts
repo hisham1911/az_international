@@ -362,8 +362,53 @@ export async function uploadExcelFile(file: File): Promise<any> {
     body: formData,
   });
 
-  if (!response.ok) throw new Error("Failed to upload file");
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Upload failed:", response.status, errorText);
+    throw new Error(
+      `Failed to upload file: ${response.status} ${response.statusText}`
+    );
+  }
   return response.json();
+}
+
+export async function exportCertificatesToExcel(): Promise<void> {
+  const token = getAuthToken();
+  const headers: HeadersInit = token
+    ? { Authorization: `Bearer ${token}` }
+    : {};
+
+  const response = await fetch(`${API_BASE_URL}/Trainees/export`, {
+    method: "GET",
+    headers,
+  });
+
+  if (!response.ok) throw new Error("Failed to export data");
+
+  // معالجة الملف للتحميل
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+
+  // استخراج اسم الملف من الـ Header إذا وجد، أو استخدام اسم افتراضي
+  const contentDisposition = response.headers.get("Content-Disposition");
+  let fileName = `Trainees_Export_${new Date().toISOString().slice(0, 10)}.xlsx`;
+
+  if (contentDisposition) {
+    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+    if (filenameMatch && filenameMatch.length > 1) {
+      fileName = filenameMatch[1];
+    }
+  }
+
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+
+  // تنظيف
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
 }
 
 export async function searchService(serial: string): Promise<any | null> {
