@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 
+import { APP_CONFIG } from "@/lib/constants";
+
 export default function WhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   // WhatsApp number and message
-  const phoneNumber = "201000643414";
+  const phoneNumber = APP_CONFIG.mobileRaw;
   const message = "Hello, I would like to inquire about your services";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
     message
