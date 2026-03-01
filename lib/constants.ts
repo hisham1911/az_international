@@ -7,8 +7,8 @@ export const APP_CONFIG = {
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://azinternational.com",
   email: "info@azinternational-eg.com",
   phone: "(02) 22-8-79-691",
-  mobile: "010688806988",
-  mobileRaw: "2010688806988",
+  mobile: "01068806988",
+  mobileRaw: "201068806988",
   address: "33 Gamal El deen Kassem St. Nasr City, Cairo",
 } as const;
 
